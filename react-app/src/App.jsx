@@ -1,0 +1,28 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import KenjinkaiPage from './pages/KenjinkaiPage';
+import IndividualKenjinkaiPage from './pages/IndividualKenjinkaiPage';
+import TransparenciaPage from './pages/TransparenciaPage';
+import NewsPage from './pages/NewsPage';
+import './styles/style.css';
+import './styles/kenjinkais.css';
+import './styles/transparencia.css';
+import './styles/news.css';
+
+export default function App() {
+  return (
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/kenjinkais" element={<KenjinkaiPage />} />
+        <Route path="/kenjinkais/:slug" element={<IndividualKenjinkaiPage />} />
+        <Route path="/transparencia" element={<TransparenciaPage />} />
+        <Route path="/noticias" element={<NewsPage />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
+}

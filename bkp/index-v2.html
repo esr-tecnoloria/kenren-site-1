@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KENREN - Federação das Associações de Províncias do Japão no Brasil. Preservando e divulgando a cultura japonesa no Brasil desde 1966.">
+    <title>KENREN - Federação das Associações de Províncias do Japão no Brasil</title>
+    <link rel="stylesheet" href="css/style-v2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="top-bar-links">
+                    <a href="#transparencia">Transparência e Projetos</a>
+                    <a href="#diretoria">Diretoria</a>
+                </div>
+                <div class="top-bar-social">
+                    <a href="#" aria-label="Facebook" class="social-icon">Facebook</a>
+                    <a href="#" aria-label="Twitter" class="social-icon">Twitter</a>
+                    <a href="#" aria-label="LinkedIn" class="social-icon">LinkedIn</a>
+                    <a href="#" aria-label="Instagram" class="social-icon">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header" id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="assets/logo_kenren.png" alt="KENREN Logo" class="logo-img">
+                </div>
+                <nav class="main-nav">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-menu" id="navMenu">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#federacao" class="nav-link">Federação <span class="dropdown-arrow">▼</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#federacao">O que é KENREN</a></li>
+                                <li><a href="#presidente">Presidente e Ex-Presidentes</a></li>
+                                <li><a href="#diretoria">Diretoria</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#kenjinkais" class="nav-link">Kenjinkais</a></li>
+                        <li><a href="#monumentos" class="nav-link">Monumentos</a></li>
+                        <li><a href="#mais" class="nav-link">Mais</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section com Slider -->
+    <section class="hero-slider-section" id="home">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <div class="slide-image">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1920&q=80" alt="Festival do Japão">
+                    <div class="slide-overlay"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="container">
+                        <h1 class="slide-title">Festival do Japão</h1>
+                        <p class="slide-subtitle">O maior evento de cultura japonesa da América Latina</p>
+                        <a href="#eventos" class="btn btn-primary">Saiba Mais</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="slide-image">
+                    <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1920&q=80" alt="Cultura Japonesa">
+                    <div class="slide-overlay"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="container">
+                        <h1 class="slide-title">Preservando Tradições</h1>
+                        <p class="slide-subtitle">Mantendo viva a cultura japonesa no Brasil</p>
+                        <a href="#federacao" class="btn btn-primary">Conheça a KENREN</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="slide-image">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=80" alt="Monumentos">
+                    <div class="slide-overlay"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="container">
+                        <h1 class="slide-title">Monumentos Históricos</h1>
+                        <p class="slide-subtitle">Homenagem aos imigrantes pioneiros</p>
+                        <a href="#monumentos" class="btn btn-primary">Visitar Monumentos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="slide-image">
+                    <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=1920&q=80" alt="Kenjinkais">
+                    <div class="slide-overlay"></div>
+                </div>
+                <div class="slide-content">
+                    <div class="container">
+                        <h1 class="slide-title">47 Províncias</h1>
+                        <p class="slide-subtitle">Unindo todas as províncias do Japão no Brasil</p>
+                        <a href="#kenjinkais" class="btn btn-primary">Ver Kenjinkais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-controls">
+            <button class="hero-arrow hero-arrow-prev" aria-label="Slide anterior">‹</button>
+            <button class="hero-arrow hero-arrow-next" aria-label="Próximo slide">›</button>
+        </div>
+        <div class="hero-indicators">
+            <button class="hero-indicator active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="hero-indicator" data-slide="1" aria-label="Slide 2"></button>
+            <button class="hero-indicator" data-slide="2" aria-label="Slide 3"></button>
+            <button class="hero-indicator" data-slide="3" aria-label="Slide 4"></button>
+        </div>
+    </section>
+
+    <!-- Seção 2: Dois Cards Grandes -->
+    <section class="cards-section">
+        <div class="container">
+            <div class="cards-grid">
+                <!-- Card Esquerdo - Institucional -->
+                <div class="card-institutional">
+                    <div class="card-content">
+                        <h2 class="card-title">KENREN</h2>
+                        <h3 class="card-subtitle">Federação das Associações de Províncias do Japão no Brasil</h3>
+                        <p class="card-text">
+                            Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os emigrantes japoneses, 
+                            preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.
+                        </p>
+                        <div class="activities-list">
+                            <h4>Atividades KENREN:</h4>
+                            <ul>
+                                <li>Preservação e divulgação da cultura japonesa</li>
+                                <li>Integração e fortalecimento dos kenjinkais</li>
+                                <li>Apoio a eventos culturais e festivais</li>
+                                <li>Construção e manutenção de monumentos históricos</li>
+                                <li>Promoção de intercâmbio cultural</li>
+                            </ul>
+                        </div>
+                        <a href="#federacao" class="btn btn-secondary">Saiba Mais</a>
+                    </div>
+                </div>
+
+                <!-- Card Direito - Destaque Monumento -->
+                <div class="card-featured">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80" alt="Memorial Ireihi">
+                    </div>
+                    <div class="card-content">
+                        <h2 class="card-title">Memorial em Homenagem aos Imigrantes Pioneiros Falecidos</h2>
+                        <p class="card-text">
+                            O Memorial Ireihi, localizado no Parque Ibirapuera em São Paulo, é uma homenagem 
+                            aos imigrantes japoneses pioneiros que contribuíram para o desenvolvimento do Brasil.
+                        </p>
+                        <a href="#monumentos" class="btn btn-accent">Visitar Monumentos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Kenjinkais / Mapa do Japão -->
+    <section class="kenjinkais-section" id="kenjinkais">
+        <div class="container">
+            <div class="kenjinkais-grid">
+                <!-- Card Esquerdo -->
+                <div class="kenjinkais-card">
+                    <div class="card-content">
+                        <h2 class="section-title">Kenjinkais</h2>
+                        <p class="card-text">
+                            Os Kenjinkais são associações formadas por pessoas originárias da mesma província do Japão. 
+                            A KENREN reúne e fortalece os kenjinkais das 47 províncias japonesas no Brasil, 
+                            promovendo a integração e preservação das tradições regionais.
+                        </p>
+                        <p class="card-text">
+                            Cada província mantém suas tradições únicas, contribuindo para a riqueza cultural 
+                            da comunidade nipo-brasileira.
+                        </p>
+                        <a href="#kenjinkais-list" class="btn btn-secondary">Ver Lista Completa</a>
+                    </div>
+                </div>
+
+                <!-- Card Direito - Mapa -->
+                <div class="map-card">
+                    <div class="map-image">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80" alt="Mapa do Japão">
+                        <div class="map-overlay">
+                            <h3>47 Províncias</h3>
+                            <p>Conheça os kenjinkais de todas as províncias do Japão</p>
+                            <a href="#kenjinkais-list" class="btn btn-primary">Ver Lista das 47 Províncias</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Agenda / Eventos -->
+    <section class="events-section" id="eventos">
+        <div class="container">
+            <div class="events-grid">
+                <!-- Lado Esquerdo -->
+                <div class="events-content">
+                    <h2 class="section-title white">AGENDA EVENTOS</h2>
+                    <p class="events-intro">
+                        Não perca os eventos dos Kenjinkais! Acompanhe os próximos eventos culturais, 
+                        festivais e celebrações da comunidade nipo-brasileira.
+                    </p>
+                    <div class="events-list">
+                        <div class="event-item">
+                            <div class="event-image">
+                                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=200&q=80" alt="Festival do Japão 2026">
+                            </div>
+                            <div class="event-info">
+                                <div class="event-date">10 JUL 2026</div>
+                                <h3 class="event-title">Festival do Japão 2026</h3>
+                                <p class="event-location">São Paulo Expo - São Paulo, SP</p>
+                                <a href="#" class="event-link">Informações</a>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-image">
+                                <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=200&q=80" alt="Yakisoba Kenjinkai">
+                            </div>
+                            <div class="event-info">
+                                <div class="event-date">26 JAN 2026</div>
+                                <h3 class="event-title">Yakisoba Kenjinkai</h3>
+                                <p class="event-location">Indaiatuba - São Paulo, SP</p>
+                                <a href="#" class="event-link">Informações</a>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-image">
+                                <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=200&q=80" alt="16º Konshinkai">
+                            </div>
+                            <div class="event-info">
+                                <div class="event-date">15 MAR 2026</div>
+                                <h3 class="event-title">16º Konshinkai</h3>
+                                <p class="event-location">São Paulo - SP</p>
+                                <a href="#" class="event-link">Informações</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#eventos-completo" class="btn btn-primary">Veja Mais</a>
+                </div>
+
+                <!-- Lado Direito - Imagem Destaque -->
+                <div class="events-featured">
+                    <div class="featured-image">
+                        <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=80" alt="Evento Cultural">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 5: Informações do Evento / Contato -->
+    <section class="contact-section" id="contato">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Lado Esquerdo - Informações -->
+                <div class="contact-info">
+                    <div class="info-item">
+                        <div class="info-icon">🎫</div>
+                        <div class="info-content">
+                            <h3>Bilheteria</h3>
+                            <p>Compre ingressos na bilheteria, aberta sete dias por semana.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🚗</div>
+                        <div class="info-content">
+                            <h3>Estacionamento</h3>
+                            <p>Estacionamento gratuito disponível com vagas limitadas.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🧥</div>
+                        <div class="info-content">
+                            <h3>Chapelaria</h3>
+                            <p>Guarde gratuitamente a sua jaqueta, bolsa ou produto.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lado Direito - Formulário e Mapa -->
+                <div class="contact-form-section">
+                    <div class="contact-form-wrapper">
+                        <h2 class="section-title">Contate-nos</h2>
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <input type="text" id="nome" name="nome" placeholder="Nome" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="mensagem" name="mensagem" rows="5" placeholder="Mensagem" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                        <div class="contact-details">
+                            <p><strong>Telefone:</strong> (11) 3456-7890</p>
+                            <p><strong>Email:</strong> info@kenren.org.br</p>
+                            <div class="contact-social">
+                                <a href="#" aria-label="Facebook">Facebook</a>
+                                <a href="#" aria-label="Instagram">Instagram</a>
+                                <a href="#" aria-label="Twitter">Twitter</a>
+                                <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197490294461!2d-46.655816684406!3d-23.548943984689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1234567890" 
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 6: Newsletter / Rodapé -->
+    <footer class="footer">
+        <div class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2 class="newsletter-title">FIQUE ATUALIZADO</h2>
+                    <p class="newsletter-text">Assine para saber das novidades, shows e eventos.</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Seu email" required>
+                        <button type="submit" class="btn btn-accent">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>KENREN</h4>
+                        <p>Federação das Associações de Províncias do Japão no Brasil</p>
+                        <p>Fundada em 1966</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Links Rápidos</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#federacao">Federação</a></li>
+                            <li><a href="#kenjinkais">Kenjinkais</a></li>
+                            <li><a href="#monumentos">Monumentos</a></li>
+                            <li><a href="#eventos">Eventos</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contato</h4>
+                        <p>Av. Bernardino de Campos, 98</p>
+                        <p>São Paulo - SP, CEP: 12345-678</p>
+                        <p>Email: info@kenren.org.br</p>
+                        <p>Tel: (11) 3456-7890</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Redes Sociais</h4>
+                        <div class="footer-social">
+                            <a href="#" aria-label="Facebook">Facebook</a>
+                            <a href="#" aria-label="Twitter">Twitter</a>
+                            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                            <a href="#" aria-label="Instagram">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy; 2025 KENREN. Todos os direitos reservados.</p>
+                    <p><a href="#privacidade">Política de Privacidade</a> | <a href="#contato">Contato</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main-v2.js"></script>
+</body>
+</html>
+
+

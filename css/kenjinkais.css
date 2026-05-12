@@ -1,0 +1,530 @@
+/* Page Banner */
+.page-banner {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    margin-top: 140px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.page-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=60') center/cover no-repeat;
+    opacity: 0.2;
+}
+
+.page-banner .container {
+    position: relative;
+    z-index: 2;
+}
+
+.page-banner-title {
+    font-family: var(--font-japanese);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.page-banner-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+}
+
+/* Map Section */
+.map-section {
+    padding: 5rem 0;
+    background: var(--bg-white);
+}
+
+/* Map Layout - filters left, map right */
+.map-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+/* Region Filters */
+.region-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 180px;
+    position: sticky;
+    top: 160px;
+}
+
+.region-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.6rem 1rem;
+    background: var(--bg-light);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+.region-filter-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-white);
+}
+
+.region-filter-btn.active {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    box-shadow: 0 2px 8px rgba(26, 26, 26, 0.2);
+}
+
+.filter-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Map Wrapper */
+.map-wrapper {
+    flex: 1;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* SVG Map Styles */
+.japan-svg-map {
+    width: 100%;
+    height: auto;
+}
+
+.japan-svg-map .pref-polygon {
+    stroke: #fff;
+    stroke-width: 1.5;
+    cursor: pointer;
+    transition: opacity 0.3s ease, filter 0.3s ease, stroke-width 0.2s ease, stroke 0.2s ease;
+}
+
+.japan-svg-map .pref-polygon:hover {
+    filter: brightness(1.2) drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+    stroke-width: 2.5;
+    stroke: rgba(255,255,255,0.9);
+}
+
+.japan-svg-map .pref-polygon.active {
+    stroke: #1A1A1A;
+    stroke-width: 3;
+    filter: brightness(1.15) drop-shadow(0 3px 8px rgba(0,0,0,0.3));
+    animation: prefPulse 1.5s ease-in-out;
+}
+
+.japan-svg-map .pref-polygon.dimmed {
+    opacity: 0.15;
+    filter: grayscale(0.5);
+}
+
+@keyframes prefPulse {
+    0% { filter: brightness(1.4) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
+    100% { filter: brightness(1.15) drop-shadow(0 3px 8px rgba(0,0,0,0.3)); }
+}
+
+/* Map Tooltip */
+.map-tooltip {
+    position: fixed;
+    background: rgba(26, 26, 26, 0.92);
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: var(--font-japanese);
+    font-weight: 500;
+    border-radius: 8px;
+    pointer-events: none;
+    display: none;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    transform: translate(12px, 12px);
+}
+
+.map-tooltip .tooltip-kanji {
+    font-size: 11px;
+    opacity: 0.75;
+    margin-left: 6px;
+}
+
+/* Region colors */
+.japan-svg-map .region-hokkaido .pref-polygon { fill: #2E7D32; }
+.japan-svg-map .region-tohoku .pref-polygon { fill: #00838F; }
+.japan-svg-map .region-kanto .pref-polygon { fill: #1565C0; }
+.japan-svg-map .region-chubu .pref-polygon { fill: #689F38; }
+.japan-svg-map .region-kinki .pref-polygon { fill: #F9A825; }
+.japan-svg-map .region-chugoku .pref-polygon { fill: #EF6C00; }
+.japan-svg-map .region-shikoku .pref-polygon { fill: #43A047; }
+.japan-svg-map .region-kyushu .pref-polygon { fill: #8E24AA; }
+
+/* Prefecture text labels */
+.japan-svg-map .pref-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    fill: #fff;
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.japan-svg-map .region-kinki .pref-label {
+    fill: #333;
+}
+
+/* Region labels outside the map */
+.japan-svg-map .region-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    fill: #fff;
+    letter-spacing: 1px;
+}
+
+.japan-svg-map .region-tag-bg {
+    rx: 4;
+    ry: 4;
+}
+
+.japan-svg-map .region-tag-line {
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+}
+
+/* Prefecture Detail Panel */
+.pref-detail-panel {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 2rem;
+    min-height: 180px;
+    margin-top: 2rem;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pref-detail-panel.panel-active {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 20px rgba(200, 16, 46, 0.1);
+}
+
+.pref-detail-placeholder {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-light);
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.pref-detail-placeholder p {
+    font-size: 1.1rem;
+}
+
+.pref-detail-content {
+    position: relative;
+    display: none;
+    animation: panelSlideIn 0.35s ease-out;
+}
+
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pref-detail-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: var(--transition);
+    padding: 0;
+    line-height: 1;
+}
+
+.pref-detail-close:hover {
+    color: var(--primary-color);
+}
+
+.pref-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.pref-detail-kanji {
+    font-family: var(--font-japanese);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.pref-detail-name {
+    font-family: var(--font-japanese);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 0.25rem;
+}
+
+.pref-detail-region {
+    font-size: 0.9rem;
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.pref-detail-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pref-detail-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.detail-row {
+    padding: 0.75rem 1rem;
+    background: var(--bg-white);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.detail-row strong {
+    color: var(--secondary-color);
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.detail-row span {
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.pref-detail-desc {
+    color: var(--text-light);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* Kenjinkais List Section */
+.kenjinkais-list-section {
+    padding: 5rem 0;
+    background: var(--bg-light);
+}
+
+.kenjinkais-regions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.region-group {
+    background: var(--bg-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.region-title {
+    font-family: var(--font-japanese);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.region-title[data-region-color="hokkaido"] { background: #2E7D32; }
+.region-title[data-region-color="tohoku"] { background: #00838F; }
+.region-title[data-region-color="kanto"] { background: #1565C0; }
+.region-title[data-region-color="chubu"] { background: #689F38; }
+.region-title[data-region-color="kinki"] { background: #F9A825; color: #333; }
+.region-title[data-region-color="chugoku"] { background: #EF6C00; }
+.region-title[data-region-color="shikoku"] { background: #43A047; }
+.region-title[data-region-color="kyushu"] { background: #8E24AA; }
+
+.region-prefectures {
+    padding: 0.5rem;
+}
+
+.pref-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pref-list-item:hover {
+    background: var(--bg-light);
+}
+
+.pref-list-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pref-list-item.active .pref-list-kanji,
+.pref-list-item.active .pref-list-name {
+    color: white;
+}
+
+.pref-list-kanji {
+    font-family: var(--font-japanese);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    min-width: 50px;
+    text-align: center;
+}
+
+.pref-list-name {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .page-banner {
+        margin-top: 80px;
+        height: 250px;
+    }
+
+    .page-banner-title {
+        font-size: 2.5rem;
+    }
+
+    .map-layout {
+        flex-direction: column;
+    }
+
+    .region-filters {
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: unset;
+        position: static;
+        justify-content: center;
+    }
+
+    .region-filter-btn {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.75rem;
+    }
+
+    .map-wrapper {
+        max-width: 100%;
+    }
+
+    .pref-detail-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-banner {
+        height: 200px;
+    }
+
+    .page-banner-title {
+        font-size: 2rem;
+    }
+
+    .page-banner-subtitle {
+        font-size: 1rem;
+    }
+
+    .kenjinkais-regions {
+        grid-template-columns: 1fr;
+    }
+
+    .pref-detail-info {
+        grid-template-columns: 1fr;
+    }
+
+    .japan-svg-map .pref-label {
+        font-size: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-banner {
+        height: 180px;
+        margin-top: 70px;
+    }
+
+    .page-banner-title {
+        font-size: 1.8rem;
+    }
+
+    .pref-detail-panel {
+        padding: 1rem;
+    }
+
+    .pref-detail-kanji {
+        font-size: 2rem;
+    }
+
+    .pref-detail-name {
+        font-size: 1.3rem;
+    }
+
+    .region-filter-btn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .filter-color {
+        width: 10px;
+        height: 10px;
+    }
+}

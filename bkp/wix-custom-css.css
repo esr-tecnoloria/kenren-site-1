@@ -1,0 +1,204 @@
+/* ============================================
+   CSS CUSTOMIZADO PARA WIX
+   ============================================
+   Cole este CSS no Editor de Código do Wix
+   ou adicione via "Design" > "Código Customizado"
+*/
+
+/* Variáveis de Cores */
+:root {
+    --kenren-black: #000000;
+    --kenren-graphite: #1A1A1A;
+    --kenren-navy: #0A2540;
+    --kenren-gold: #D4AF37;
+    --kenren-red: #C8102E;
+    --kenren-white: #FFFFFF;
+}
+
+/* Top Bar Customizada */
+.top-bar-custom {
+    background-color: var(--kenren-black) !important;
+    color: var(--kenren-white) !important;
+    padding: 0.75rem 0 !important;
+}
+
+/* Header Sticky */
+.main-header-custom {
+    background-color: var(--kenren-white) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+.main-header-custom.scrolled {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Botões Customizados */
+.btn-kenren-primary {
+    background-color: var(--kenren-red) !important;
+    color: var(--kenren-white) !important;
+    border-radius: 8px !important;
+    padding: 1rem 2.5rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-kenren-primary:hover {
+    background-color: #A00D25 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+.btn-kenren-accent {
+    background-color: var(--kenren-gold) !important;
+    color: var(--kenren-black) !important;
+    border-radius: 8px !important;
+    padding: 1rem 2.5rem !important;
+    font-weight: 700 !important;
+}
+
+.btn-kenren-secondary {
+    background-color: var(--kenren-graphite) !important;
+    color: var(--kenren-white) !important;
+    border-radius: 8px !important;
+    padding: 1rem 2.5rem !important;
+    font-weight: 600 !important;
+}
+
+/* Cards Customizados */
+.card-kenren {
+    background-color: var(--kenren-white) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    padding: 3rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.card-kenren:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Seção Azul-marinho */
+.section-navy {
+    background-color: var(--kenren-navy) !important;
+    color: var(--kenren-white) !important;
+}
+
+/* Títulos Customizados */
+.title-kenren {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    color: var(--kenren-graphite) !important;
+    font-size: 2.5rem !important;
+}
+
+.title-kenren-white {
+    color: var(--kenren-white) !important;
+}
+
+/* Links de Navegação */
+.nav-link-kenren {
+    color: var(--kenren-graphite) !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.nav-link-kenren:hover,
+.nav-link-kenren.active {
+    color: var(--kenren-red) !important;
+}
+
+.nav-link-kenren::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 2px !important;
+    background: var(--kenren-red) !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-link-kenren:hover::after,
+.nav-link-kenren.active::after {
+    width: 100% !important;
+}
+
+/* Eventos List */
+.event-item-kenren {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 8px !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease !important;
+    margin-bottom: 1rem !important;
+}
+
+.event-item-kenren:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateX(5px) !important;
+}
+
+.event-date-kenren {
+    color: var(--kenren-gold) !important;
+    font-weight: 700 !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Newsletter Section */
+.newsletter-section-kenren {
+    background-color: var(--kenren-navy) !important;
+    padding: 4rem 0 !important;
+    text-align: center !important;
+}
+
+/* Footer */
+.footer-kenren {
+    background-color: var(--kenren-graphite) !important;
+    color: var(--kenren-white) !important;
+}
+
+.footer-title-kenren {
+    color: var(--kenren-gold) !important;
+    font-weight: 700 !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .title-kenren {
+        font-size: 2rem !important;
+    }
+    
+    .card-kenren {
+        padding: 2rem !important;
+    }
+}
+
+/* Overlay para Slider */
+.slide-overlay-custom {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(26, 26, 26, 0.7) 100%) !important;
+}
+
+/* Espaçamentos Generosos */
+.section-spacing {
+    padding: 6rem 0 !important;
+}
+
+/* Tipografia */
+body {
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.6 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+
+
