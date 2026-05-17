@@ -1,0 +1,161 @@
+name: PR Preview
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/site/**'
+      - 'apps/admin/**'
+      - 'firebase.json'
+      - '.firebaserc'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write   # required to post the preview-URL comment
+
+env:
+  PROJECT_ID: guia-do-festival-do-japao
+  WIF_PROVIDER: projects/735799959833/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  WIF_SA: ci-deployer@guia-do-festival-do-japao.iam.gserviceaccount.com
+  EXPIRES: 7d
+
+jobs:
+  # ─── Detect changes per app ────────────────────────────────────────────
+  changes:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    outputs:
+      site: ${{ steps.filter.outputs.site }}
+      admin: ${{ steps.filter.outputs.admin }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            site:
+              - 'apps/site/**'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - 'firebase.json'
+              - '.firebaserc'
+            admin:
+              - 'apps/admin/**'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - 'firebase.json'
+              - '.firebaserc'
+
+  # ─── Site preview ──────────────────────────────────────────────────────
+  preview-site:
+    needs: changes
+    if: github.event.action != 'closed' && needs.changes.outputs.site == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 8.15.9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile --filter @kenren/site...
+      - run: pnpm --filter @kenren/site build
+        env:
+          VITE_API_URL: https://kenren-api-mvxj6ljnkq-rj.a.run.app
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Deploy preview channel
+        id: deploy
+        run: |
+          OUT=$(npx --yes firebase-tools hosting:channel:deploy "pr-${{ github.event.pull_request.number }}" \
+            --only kenren \
+            --expires "${EXPIRES}" \
+            --project="${PROJECT_ID}" \
+            --json --non-interactive)
+          URL=$(echo "$OUT" | node -e "const j=require('fs').readFileSync(0,'utf8');const d=JSON.parse(j);console.log(d.result?.kenren?.url||'')")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: site-preview
+          message: |
+            🌐 **Site preview:** ${{ steps.deploy.outputs.url }}
+            (expira em ${{ env.EXPIRES }} · canal `pr-${{ github.event.pull_request.number }}`)
+
+  # ─── Admin preview ─────────────────────────────────────────────────────
+  preview-admin:
+    needs: changes
+    if: github.event.action != 'closed' && needs.changes.outputs.admin == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 8.15.9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile --filter @kenren/admin...
+      - run: pnpm --filter @kenren/admin build
+        env:
+          VITE_API_URL: https://kenren-api-mvxj6ljnkq-rj.a.run.app
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: guia-do-festival-do-japao.firebaseapp.com
+          VITE_FIREBASE_PROJECT_ID: guia-do-festival-do-japao
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Deploy preview channel
+        id: deploy
+        run: |
+          OUT=$(npx --yes firebase-tools hosting:channel:deploy "pr-${{ github.event.pull_request.number }}" \
+            --only kenren-admin \
+            --expires "${EXPIRES}" \
+            --project="${PROJECT_ID}" \
+            --json --non-interactive)
+          URL=$(echo "$OUT" | node -e "const j=require('fs').readFileSync(0,'utf8');const d=JSON.parse(j);console.log(d.result?.['kenren-admin']?.url||'')")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: admin-preview
+          message: |
+            🛠 **Admin preview:** ${{ steps.deploy.outputs.url }}
+            (expira em ${{ env.EXPIRES }} · canal `pr-${{ github.event.pull_request.number }}`)
+
+  # ─── On PR close, delete both channels ─────────────────────────────────
+  cleanup:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Delete preview channels
+        continue-on-error: true
+        run: |
+          npx --yes firebase-tools hosting:channel:delete "pr-${{ github.event.pull_request.number }}" \
+            --site kenren --project="${PROJECT_ID}" --force || true
+          npx --yes firebase-tools hosting:channel:delete "pr-${{ github.event.pull_request.number }}" \
+            --site kenren-admin --project="${PROJECT_ID}" --force || true
