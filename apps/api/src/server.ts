@@ -5,7 +5,9 @@ import sensible from '@fastify/sensible';
 import { env, corsOrigins } from './lib/env.js';
 import { authPlugin } from './plugins/auth.js';
 import { newsRoutes } from './modules/kenren/news/routes.js';
+import { eventsRoutes } from './modules/kenren/events/routes.js';
 import { adminNewsRoutes } from './modules/admin/news/routes.js';
+import { adminEventsRoutes } from './modules/admin/events/routes.js';
 import { mediaRoutes } from './modules/shared/media/routes.js';
 
 const app = Fastify({
@@ -27,7 +29,9 @@ await app.register(authPlugin);
 app.get('/health', async () => ({ ok: true, env: env.NODE_ENV }));
 
 await app.register(newsRoutes, { prefix: '/kenren/news' });
+await app.register(eventsRoutes, { prefix: '/kenren/events' });
 await app.register(adminNewsRoutes, { prefix: '/admin/news' });
+await app.register(adminEventsRoutes, { prefix: '/admin/events' });
 await app.register(mediaRoutes, { prefix: '/media' });
 
 try {

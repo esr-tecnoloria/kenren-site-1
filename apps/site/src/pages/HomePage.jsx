@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useEvents } from '../data/useEvents';
 
 const heroSlides = [
   { src: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=90', alt: 'Templo Japonês' },
@@ -8,6 +9,7 @@ const heroSlides = [
 ];
 
 export default function HomePage() {
+  const { items: events, loading: eventsLoading } = useEvents();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [prevSlideIdx, setPrevSlideIdx] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -190,34 +192,34 @@ export default function HomePage() {
             <div className="title-underline"></div>
             <p className="section-subtitle">Não perca os eventos dos Kenjinkais!</p>
           </div>
-          <div className="eventos-list">
-            <div className="evento-card">
-              <div className="evento-date">
-                <span className="evento-day">26</span>
-                <span className="evento-month">JAN</span>
-              </div>
-              <div className="evento-content">
-                <h3>YAKISOBA KENJINKAI</h3>
-                <p className="evento-time">11:00 – 17:00</p>
-                <p className="evento-location">📍 Indaiatuba, R. Goiás - Cidade Nova II, Indaiatuba - SP</p>
-                <a href="#" className="evento-link">Mais Informações</a>
-              </div>
+          {eventsLoading ? (
+            <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Carregando eventos…</p>
+          ) : events.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Nenhum evento programado no momento.</p>
+          ) : (
+            <div className="eventos-list">
+              {events.map(ev => (
+                <div key={ev.id} className={`evento-card${ev.featured ? ' featured' : ''}`}>
+                  {ev.featured && <div className="evento-badge">Destaque</div>}
+                  <div className="evento-date">
+                    <span className="evento-day">{ev.day}</span>
+                    <span className="evento-month">{ev.month}</span>
+                  </div>
+                  <div className="evento-content">
+                    <h3>{ev.title}</h3>
+                    <p className="evento-time">{ev.timeRange}</p>
+                    {ev.location && <p className="evento-location">📍 {ev.location}</p>}
+                    {ev.description && <p className="evento-description">{ev.description}</p>}
+                    {ev.linkUrl && (
+                      <a href={ev.linkUrl} target="_blank" rel="noopener noreferrer" className="evento-link">
+                        {ev.featured ? 'Veja Mais' : 'Mais Informações'}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="evento-card featured">
-              <div className="evento-badge">Destaque</div>
-              <div className="evento-date">
-                <span className="evento-day">10</span>
-                <span className="evento-month">JUL</span>
-              </div>
-              <div className="evento-content">
-                <h3>FESTIVAL JAPÃO 2026</h3>
-                <p className="evento-time">11:00 – 21:00</p>
-                <p className="evento-location">📍 São Paulo Expo, Rod. dos Imigrantes, 1 - 5 km - Vila Água Funda, São Paulo - SP</p>
-                <p className="evento-description">O maior evento de cultura japonesa da América Latina chega à sua 27ª edição, reunindo tradições, gastronomia, arte e tecnologia em um só lugar.</p>
-                <a href="#" className="evento-link">Veja Mais</a>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 

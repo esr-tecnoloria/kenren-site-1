@@ -7,6 +7,8 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { NewsListPage } from './pages/NewsListPage';
 import { NewsEditPage } from './pages/NewsEditPage';
+import { EventsListPage } from './pages/EventsListPage';
+import { EventEditPage } from './pages/EventEditPage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
@@ -24,6 +26,9 @@ export default function App() {
               <Route path="news" element={<NewsListPage />} />
               <Route path="news/new" element={<NewsEditPage />} />
               <Route path="news/:id" element={<NewsEditPage />} />
+              <Route path="events" element={<EventsListPage />} />
+              <Route path="events/new" element={<EventEditPage />} />
+              <Route path="events/:id" element={<EventEditPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -88,6 +88,9 @@ body {
   font-family: inherit; font-size: 0.95rem; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-elev);
 }
 .form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--primary); }
+.form-row-double { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.checkbox-row { flex-direction: row !important; align-items: center; gap: 0.5rem !important; }
+.checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); margin: 0; }
 
 /* Media upload */
 .media-upload { display: flex; flex-direction: column; gap: 0.5rem; }

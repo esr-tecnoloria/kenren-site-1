@@ -97,6 +97,30 @@ model NewsOnCategory {
   @@schema("kenren")
 }
 
+model Event {
+  id           String        @id @default(uuid()) @db.Uuid
+  slug         String        @unique
+  title        String
+  description  String?
+  bodyHtml     String?       @map("body_html")
+  location     String?
+  startsAt     DateTime      @map("starts_at")
+  endsAt       DateTime?     @map("ends_at")
+  allDay       Boolean       @default(false) @map("all_day")
+  coverUrl     String?       @map("cover_url")
+  coverAlt     String?       @map("cover_alt")
+  linkUrl      String?       @map("link_url")
+  featured     Boolean       @default(false)
+  status       PublishStatus @default(draft)
+  publishedAt  DateTime?     @map("published_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  @@index([status, startsAt])
+  @@map("events")
+  @@schema("kenren")
+}
+
 model Media {
   id           String   @id @default(uuid()) @db.Uuid
   gcsPath      String   @unique @map("gcs_path")
