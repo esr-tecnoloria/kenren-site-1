@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useEvents } from '../data/useEvents';
+import { useNews } from '../data/useNews';
+import { resizedUrl, resizedSrcSet } from '../utils/image';
 
 const heroSlides = [
   { src: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=90', alt: 'Templo Japonês' },
@@ -10,6 +12,7 @@ const heroSlides = [
 
 export default function HomePage() {
   const { items: events, loading: eventsLoading } = useEvents();
+  const { items: news, loading: newsLoading } = useNews();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [prevSlideIdx, setPrevSlideIdx] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -181,6 +184,64 @@ export default function HomePage() {
               onClick={() => { setIsPaused(true); goToSlide(index); setTimeout(() => setIsPaused(false), 100); }}
             />
           ))}
+        </div>
+      </section>
+
+      {/* Notícias Section */}
+      <section className="home-news-section" id="noticias-home">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Últimas Notícias</h2>
+            <div className="title-underline"></div>
+            <p className="section-subtitle">Acompanhe o que está acontecendo na Kenren e nos Kenjinkais</p>
+          </div>
+
+          {newsLoading ? (
+            <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Carregando notícias…</p>
+          ) : news.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Nenhuma notícia publicada no momento.</p>
+          ) : (
+            <>
+              <div className="home-news-grid">
+                {news.slice(0, 3).map(item => (
+                  <Link key={item.id} to={item.link} className="home-news-card">
+                    <div className="home-news-card-image">
+                      {item.image ? (
+                        <img
+                          src={resizedUrl(item.image, 400)}
+                          srcSet={resizedSrcSet(item.image)}
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          alt={item.title}
+                          loading="lazy"
+                          onError={(e) => { e.currentTarget.src = item.image; }}
+                        />
+                      ) : (
+                        <div className="home-news-card-placeholder">📰</div>
+                      )}
+                    </div>
+                    <div className="home-news-card-body">
+                      <div className="home-news-card-meta">
+                        {item.categories.slice(0, 1).map(cat => (
+                          <span key={cat} className="news-cat-pill">{cat}</span>
+                        ))}
+                        {item.date && (
+                          <span className="home-news-card-date">
+                            {new Date(item.date + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="home-news-card-title">{item.title}</h3>
+                      <p className="home-news-card-excerpt">{item.excerpt}</p>
+                      <span className="home-news-card-cta">Ler mais →</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                <Link to="/noticias" className="btn btn-primary">Ver todas as notícias</Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
