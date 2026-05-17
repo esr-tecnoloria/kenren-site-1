@@ -1,7 +1,8 @@
 FROM node:20-alpine AS build
 WORKDIR /repo
 
-RUN corepack enable && corepack prepare pnpm@8.15.9 --activate
+RUN apk add --no-cache openssl \
+ && corepack enable && corepack prepare pnpm@8.15.9 --activate
 
 # Workspace root files first (for layer caching).
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
@@ -18,6 +19,7 @@ RUN pnpm --filter @kenren/api prisma:generate \
 FROM node:20-alpine AS runtime
 WORKDIR /repo
 ENV NODE_ENV=production
+RUN apk add --no-cache openssl
 
 COPY --from=build /repo/node_modules ./node_modules
 COPY --from=build /repo/apps/api/node_modules ./apps/api/node_modules

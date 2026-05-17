@@ -3,16 +3,9 @@
     {
       "target": "kenren",
       "public": "apps/site/dist",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
+        { "source": "**", "destination": "/index.html" }
       ],
       "headers": [
         {
@@ -23,9 +16,27 @@
         },
         {
           "source": "**/*.html",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        }
+      ]
+    },
+    {
+      "target": "kenren-admin",
+      "public": "apps/admin/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        { "source": "**", "destination": "/index.html" }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(js|css|svg|png|jpg|jpeg|webp|woff2)",
           "headers": [
-            { "key": "Cache-Control", "value": "no-cache" }
+            { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
           ]
+        },
+        {
+          "source": "**/*.html",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
         }
       ]
     }
