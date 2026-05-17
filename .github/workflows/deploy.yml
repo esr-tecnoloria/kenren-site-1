@@ -1,42 +1,142 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Force-deploy a specific target"
+        required: false
+        type: choice
+        options: [all, api, site, admin]
+        default: all
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  id-token: write   # required for Workload Identity Federation
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+env:
+  PROJECT_ID: guia-do-festival-do-japao
+  REGION: southamerica-east1
+  WIF_PROVIDER: projects/735799959833/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  WIF_SA: ci-deployer@guia-do-festival-do-japao.iam.gserviceaccount.com
 
 jobs:
-  build:
+  # ─── Detect which paths changed ─────────────────────────────────────────
+  changes:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: react-app
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      site: ${{ steps.filter.outputs.site }}
+      admin: ${{ steps.filter.outputs.admin }}
     steps:
       - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            api:
+              - 'apps/api/**'
+              - 'cloudbuild.yaml'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+            site:
+              - 'apps/site/**'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - 'firebase.json'
+              - '.firebaserc'
+            admin:
+              - 'apps/admin/**'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - 'firebase.json'
+              - '.firebaserc'
+
+  # ─── Deploy API (Cloud Run) via Cloud Build ────────────────────────────
+  api:
+    needs: changes
+    if: |
+      needs.changes.outputs.api == 'true' ||
+      github.event.inputs.target == 'api' ||
+      github.event.inputs.target == 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Submit Cloud Build (build + deploy)
+        run: gcloud builds submit --config=cloudbuild.yaml --project=${{ env.PROJECT_ID }} .
+
+  # ─── Build + deploy site to Firebase Hosting ───────────────────────────
+  site:
+    needs: changes
+    if: |
+      needs.changes.outputs.site == 'true' ||
+      github.event.inputs.target == 'site' ||
+      github.event.inputs.target == 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 8.15.9 }
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile --filter @kenren/site...
+      - run: pnpm --filter @kenren/site build
+        env:
+          VITE_API_URL: https://kenren-api-mvxj6ljnkq-rj.a.run.app
+      - uses: google-github-actions/auth@v2
         with:
-          path: react-app/dist
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Deploy site
+        run: npx --yes firebase-tools deploy --only hosting:kenren --project=${{ env.PROJECT_ID }} --non-interactive
 
-  deploy:
-    needs: build
+  # ─── Build + deploy admin to Firebase Hosting ──────────────────────────
+  admin:
+    needs: changes
+    if: |
+      needs.changes.outputs.admin == 'true' ||
+      github.event.inputs.target == 'admin' ||
+      github.event.inputs.target == 'all'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 8.15.9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile --filter @kenren/admin...
+      - run: pnpm --filter @kenren/admin build
+        env:
+          VITE_API_URL: https://kenren-api-mvxj6ljnkq-rj.a.run.app
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: guia-do-festival-do-japao.firebaseapp.com
+          VITE_FIREBASE_PROJECT_ID: guia-do-festival-do-japao
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+      - name: Deploy admin
+        run: npx --yes firebase-tools deploy --only hosting:kenren-admin --project=${{ env.PROJECT_ID }} --non-interactive
