@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { newsItems, newsCategories } from '../data/news';
+import { useNews } from '../data/useNews';
 
 const PAGE_SIZE = 9;
 
@@ -17,6 +17,7 @@ const dayOf = (iso) => new Date(iso + 'T00:00:00').getDate().toString().padStart
 const yearOf = (iso) => new Date(iso + 'T00:00:00').getFullYear();
 
 export default function NewsPage() {
+  const { items: newsItems, categories: newsCategories, loading, error } = useNews();
   const [category, setCategory] = useState('Todas');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
@@ -27,16 +28,16 @@ export default function NewsPage() {
 
   const sortedNews = useMemo(
     () => [...newsItems].sort((a, b) => b.date.localeCompare(a.date)),
-    []
+    [newsItems]
   );
 
   const featured = useMemo(() => {
     const explicit = sortedNews.find(n => n.featured);
-    return explicit || sortedNews[0];
+    return explicit || sortedNews[0] || null;
   }, [sortedNews]);
 
   const recent = useMemo(
-    () => sortedNews.filter(n => n.id !== featured.id).slice(0, 4),
+    () => featured ? sortedNews.filter(n => n.id !== featured.id).slice(0, 4) : [],
     [sortedNews, featured]
   );
 
@@ -80,10 +81,23 @@ export default function NewsPage() {
         </div>
       </section>
 
+      {loading && (
+        <section className="news-featured-section">
+          <div className="container"><p style={{ textAlign: 'center', padding: '2rem' }}>Carregando notícias…</p></div>
+        </section>
+      )}
+
+      {error && (
+        <section className="news-featured-section">
+          <div className="container"><p style={{ textAlign: 'center', padding: '2rem', color: '#b22222' }}>Erro ao carregar notícias: {error}</p></div>
+        </section>
+      )}
+
+      {!loading && !error && featured && (
       <section className="news-featured-section">
         <div className="container">
           <div className="news-featured-grid">
-            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="news-featured">
+            <a href={featured.link} className="news-featured">
               <div className="news-featured-image">
                 <img src={featured.image} alt={featured.title} loading="lazy" />
                 <span className="news-featured-badge">
@@ -118,7 +132,7 @@ export default function NewsPage() {
               <ul className="news-sidebar-list">
                 {recent.map(item => (
                   <li key={item.id}>
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="news-sidebar-item">
+                    <a href={item.link} className="news-sidebar-item">
                       <div className="news-sidebar-thumb">
                         <img src={item.image} alt={item.title} loading="lazy" />
                       </div>
@@ -134,6 +148,7 @@ export default function NewsPage() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="news-list-section">
         <div className="container">
@@ -194,8 +209,6 @@ export default function NewsPage() {
                 <a
                   key={item.id}
                   href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="news-card"
                 >
                   <div className="news-card-image">
