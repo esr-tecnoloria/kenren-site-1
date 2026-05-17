@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTransparency } from '../data/useTransparency';
 
-const projects = [
+const _legacyProjects = [
   {
     year: 2020,
     title: '23º Festival do Japão',
@@ -111,6 +112,7 @@ const formatCurrency = (value) =>
   value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
 export default function TransparenciaPage() {
+  const { items: projects, loading, error } = useTransparency();
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -122,12 +124,12 @@ export default function TransparenciaPage() {
     const executed = projects.filter(p => p.status === 'executed').length;
     const inAccounting = projects.filter(p => p.status === 'accounting').length;
     return { total, executed, inAccounting, count: projects.length };
-  }, []);
+  }, [projects]);
 
   const visibleProjects = useMemo(() => {
     if (filter === 'all') return projects;
     return projects.filter(p => p.status === filter);
-  }, [filter]);
+  }, [filter, projects]);
 
   return (
     <>
@@ -199,6 +201,12 @@ export default function TransparenciaPage() {
             ))}
           </div>
 
+          {loading && <p style={{ textAlign: 'center', padding: '2rem 0' }}>Carregando projetos…</p>}
+          {error && <p style={{ textAlign: 'center', padding: '2rem 0', color: '#b22222' }}>Erro: {error}</p>}
+          {!loading && !error && visibleProjects.length === 0 && (
+            <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Nenhum projeto nesse filtro.</p>
+          )}
+
           <ol className="transp-timeline">
             {visibleProjects.map((p, i) => (
               <li key={`${p.year}-${p.sphere}-${i}`} className="transp-timeline-item">
@@ -245,9 +253,12 @@ export default function TransparenciaPage() {
                       {p.docs.map((d, idx) => (
                         <a
                           key={idx}
-                          href="#"
-                          className="transp-doc-chip"
-                          onClick={(e) => e.preventDefault()}
+                          href={d.url || '#'}
+                          target={d.url ? '_blank' : undefined}
+                          rel={d.url ? 'noopener noreferrer' : undefined}
+                          className={`transp-doc-chip${d.url ? '' : ' transp-doc-chip-disabled'}`}
+                          onClick={(e) => { if (!d.url) e.preventDefault(); }}
+                          title={d.url ? 'Baixar documento' : 'Documento ainda não disponível'}
                         >
                           <span className="transp-doc-chip-icon" aria-hidden="true">📄</span>
                           <span>{d.label}</span>

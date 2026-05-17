@@ -12,6 +12,8 @@ import { EventEditPage } from './pages/EventEditPage';
 import { KenjinkaisListPage } from './pages/KenjinkaisListPage';
 import { KenjinkaiEditPage } from './pages/KenjinkaiEditPage';
 import { NewsCategoriesPage } from './pages/NewsCategoriesPage';
+import { TransparencyListPage } from './pages/TransparencyListPage';
+import { TransparencyEditPage } from './pages/TransparencyEditPage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
@@ -35,6 +37,9 @@ export default function App() {
               <Route path="kenjinkais" element={<KenjinkaisListPage />} />
               <Route path="kenjinkais/:id" element={<KenjinkaiEditPage />} />
               <Route path="news-categories" element={<NewsCategoriesPage />} />
+              <Route path="transparency" element={<TransparencyListPage />} />
+              <Route path="transparency/new" element={<TransparencyEditPage />} />
+              <Route path="transparency/:id" element={<TransparencyEditPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
