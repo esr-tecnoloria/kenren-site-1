@@ -58,7 +58,7 @@ export default function HomePage() {
   useEffect(() => {
     heroSlides.forEach(slide => {
       const img = new Image();
-      img.src = slide.imageUrl;
+      img.src = resizedUrl(slide.imageUrl, 1600);
     });
   }, []);
 
@@ -151,7 +151,15 @@ export default function HomePage() {
         <div className="hero-slider">
           {heroSlides.map((slide, index) => (
             <div key={slide.id ?? index} className={getSlideClassName(index)}>
-              <img src={slide.imageUrl} alt={slide.alt ?? ''} className="hero-bg-img" loading="eager" />
+              <img
+                src={resizedUrl(slide.imageUrl, 1600)}
+                srcSet={resizedSrcSet(slide.imageUrl)}
+                sizes="100vw"
+                alt={slide.alt ?? ''}
+                className="hero-bg-img"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                onError={(e) => { e.currentTarget.src = slide.imageUrl; }}
+              />
               <div className="hero-overlay"></div>
             </div>
           ))}

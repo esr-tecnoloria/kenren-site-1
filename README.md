@@ -1,87 +1,62 @@
-# Site KENREN
+# Kenren
 
-Site oficial da KENREN - Federação das Associações de Províncias do Japão no Brasil.
+Federação das Associações de Províncias do Japão no Brasil.
 
-## 🎨 Características
+Monorepo com site público, painel admin e API.
 
-- **Design Moderno e Elegante**: Interface limpa e profissional inspirada na cultura japonesa
-- **Totalmente Responsivo**: Funciona perfeitamente em desktop, tablet e mobile
-- **Navegação Suave**: Scroll suave entre seções
-- **Animações**: Efeitos de fade-in e transições suaves
-- **Formulários Funcionais**: Formulário de contato e newsletter
-- **Performance Otimizada**: Carregamento rápido e otimizado
+## Apps
 
-## 📁 Estrutura do Projeto
+| App | Stack | URL produção |
+|---|---|---|
+| [apps/site](apps/site) | React + Vite + React Router | https://kenren.web.app |
+| [apps/admin](apps/admin) | React + Vite + Firebase Auth + TinyMCE | https://kenren-admin.web.app |
+| [apps/api](apps/api) | Fastify + Prisma + Cloud SQL | https://kenren-api-mvxj6ljnkq-rj.a.run.app |
+
+## Infra (GCP / Firebase)
+
+- **Cloud SQL Postgres 15** instância `kenren-db` (southamerica-east1), schemas `shared` + `kenren` em `kenren_main`
+- **Cloud Run** serviço `kenren-api`, deploy via Cloud Build
+- **Firebase Hosting** sites `kenren` e `kenren-admin`
+- **GCS** bucket `kenren-media` (público), imagens via signed upload URL
+- **Storage Resize Images** extension gera variants 400/800/1600
+- **Firebase Auth** + Google provider para o admin
+- **Workload Identity Federation** liga GitHub Actions ao GCP (sem chave estática)
+
+## Dev local
+
+Requer Node 20+, pnpm 8.15+, `gcloud` autenticado e `cloud-sql-proxy`.
+
+```bash
+pnpm install
+
+# Site
+pnpm dev:site                       # http://localhost:5173
+
+# Admin (precisa apps/admin/.env com Firebase web config)
+pnpm --filter @kenren/admin dev      # http://localhost:5174
+
+# API (em outra aba: cloud-sql-proxy)
+pnpm --filter @kenren/api dev:proxy
+# então
+pnpm --filter @kenren/api dev        # http://localhost:8080
+```
+
+## Deploy
+
+Push em `main` dispara [.github/workflows/deploy.yml](.github/workflows/deploy.yml) que detecta o que mudou e faz deploy:
+- `apps/api/**` → Cloud Build → Cloud Run
+- `apps/site/**` ou `apps/admin/**` → build local → Firebase Hosting
+
+PRs ganham preview channels via [.github/workflows/pr-preview.yml](.github/workflows/pr-preview.yml).
+
+## Estrutura
 
 ```
-kenren-site/
-├── index.html          # Página principal
-├── css/
-│   └── style.css       # Estilos principais
-├── js/
-│   └── main.js         # JavaScript para interatividade
-├── assets/
-│   └── logo_kenren.png # Logo da KENREN (adicionar sua imagem)
-└── README.md           # Este arquivo
+apps/
+  api/       Fastify + Prisma + scripts de seed
+  site/      site público
+  admin/     painel admin
+extensions/  config das Firebase Extensions
+.github/
+  workflows/ CI/CD
 ```
-
-## 🚀 Como Usar
-
-1. Abra o arquivo `index.html` em um navegador moderno
-2. Ou use um servidor local:
-   ```bash
-   # Com Python
-   python -m http.server 8000
-   
-   # Com Node.js (http-server)
-   npx http-server
-   ```
-
-## 🎯 Seções do Site
-
-- **Home**: Hero section com informações principais
-- **Federação**: Sobre a KENREN e sua história
-- **Kenjinkais**: Informações sobre as associações de províncias
-- **Monumentos**: Memorial Ireihi e Monumento do Desembarque
-- **Eventos**: Agenda de eventos dos Kenjinkais
-- **Contato**: Formulário de contato e informações
-
-## 🖼️ Imagens
-
-O site utiliza imagens do Unsplash como placeholders. Para produção, substitua as URLs das imagens pelas imagens reais da KENREN:
-
-- Logo: `assets/logo_kenren.png`
-- Imagens do hero e seções: Atualize as URLs no HTML
-
-## 🛠️ Personalização
-
-### Cores
-As cores principais podem ser alteradas no arquivo `css/style.css` através das variáveis CSS:
-- `--primary-color`: Cor principal (vermelho)
-- `--secondary-color`: Cor secundária (preto)
-- Outras cores podem ser ajustadas conforme necessário
-
-### Fontes
-O site utiliza:
-- **Inter**: Para textos em português
-- **Noto Sans JP**: Para textos em japonês
-
-## 📱 Responsividade
-
-O site é totalmente responsivo e se adapta a:
-- Desktop (1200px+)
-- Tablet (768px - 1199px)
-- Mobile (< 768px)
-
-## 🌐 Navegadores Suportados
-
-- Chrome (últimas versões)
-- Firefox (últimas versões)
-- Safari (últimas versões)
-- Edge (últimas versões)
-
-## 📝 Licença
-
-Este projeto foi criado para a KENREN.
-
-

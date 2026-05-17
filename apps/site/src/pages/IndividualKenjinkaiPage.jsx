@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useKenjinkais } from '../data/useKenjinkais';
+import { resizedUrl } from '../utils/image';
 
 export default function IndividualKenjinkaiPage() {
   const { slug } = useParams();
@@ -21,8 +22,15 @@ export default function IndividualKenjinkaiPage() {
   return (
     <>
       <section
-        className="kenjinkai-hero"
-        style={{ background: `linear-gradient(135deg, ${data.regionColor}cc 0%, rgba(26,26,26,0.85) 100%)` }}
+        className={`kenjinkai-hero${data.coverUrl ? ' has-cover' : ''}`}
+        style={data.coverUrl
+          ? {
+              backgroundImage:
+                `linear-gradient(135deg, ${data.regionColor}cc 0%, rgba(26,26,26,0.85) 100%), ` +
+                `url("${resizedUrl(data.coverUrl, 1600)}")`,
+            }
+          : { background: `linear-gradient(135deg, ${data.regionColor}cc 0%, rgba(26,26,26,0.85) 100%)` }
+        }
       >
         <div className="container">
           <Link to="/kenjinkais" className="kenjinkai-back">← Voltar ao mapa</Link>

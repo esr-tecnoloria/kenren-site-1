@@ -887,3 +887,10 @@
         font-size: 4.5rem;
     }
 }
+
+.kenjinkai-hero.has-cover {
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat;
+  min-height: 320px;
+}
