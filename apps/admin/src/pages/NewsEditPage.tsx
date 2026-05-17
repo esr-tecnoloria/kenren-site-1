@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { MediaUpload } from '../components/MediaUpload';
 
@@ -20,6 +20,19 @@ import 'tinymce/plugins/media';
 import 'tinymce/plugins/autolink';
 import 'tinymce/plugins/wordcount';
 
+type Status = 'draft' | 'published' | 'archived';
+type News = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  bodyHtml: string;
+  coverUrl: string | null;
+  coverAlt: string | null;
+  youtubeId: string | null;
+  status: Status;
+};
+
 const slugify = (s: string) =>
   s.toLowerCase()
     .normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -27,8 +40,11 @@ const slugify = (s: string) =>
     .replace(/^-|-$/g, '');
 
 export function NewsEditPage() {
+  const { id } = useParams();
+  const isNew = !id || id === 'new';
   const navigate = useNavigate();
   const qc = useQueryClient();
+
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [excerpt, setExcerpt] = useState('');
@@ -36,39 +52,83 @@ export function NewsEditPage() {
   const [youtubeId, setYoutubeId] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
   const [coverAlt, setCoverAlt] = useState('');
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [status, setStatus] = useState<Status>('draft');
 
-  const create = useMutation({
-    mutationFn: (data: unknown) => api.post('/kenren/news', data),
+  const existing = useQuery({
+    queryKey: ['admin', 'news', id],
+    queryFn: () => api.get<News>(`/admin/news/${id}`),
+    enabled: !isNew,
+  });
+
+  useEffect(() => {
+    if (existing.data) {
+      const n = existing.data;
+      setTitle(n.title);
+      setSlug(n.slug);
+      setExcerpt(n.excerpt ?? '');
+      setBodyHtml(n.bodyHtml);
+      setYoutubeId(n.youtubeId ?? '');
+      setCoverUrl(n.coverUrl ?? '');
+      setCoverAlt(n.coverAlt ?? '');
+      setStatus(n.status);
+    }
+  }, [existing.data]);
+
+  const save = useMutation({
+    mutationFn: (data: unknown) =>
+      isNew
+        ? api.post<News>('/admin/news', data)
+        : api.put<News>(`/admin/news/${id}`, data),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['news'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'news'] });
+      navigate('/news');
+    },
+  });
+
+  const del = useMutation({
+    mutationFn: () => api.del<void>(`/admin/news/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin', 'news'] });
       navigate('/news');
     },
   });
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    create.mutate({
+    save.mutate({
       title,
       slug: slug || slugify(title),
-      excerpt: excerpt || undefined,
+      excerpt: excerpt || null,
       bodyHtml,
-      coverUrl: coverUrl || undefined,
-      coverAlt: coverAlt || undefined,
-      youtubeId: youtubeId || undefined,
+      coverUrl: coverUrl || null,
+      coverAlt: coverAlt || null,
+      youtubeId: youtubeId || null,
       status,
       categoryIds: [],
     });
   }
 
+  function onDelete() {
+    if (!confirm('Apagar esta notícia? Esta ação não pode ser desfeita.')) return;
+    del.mutate();
+  }
+
+  if (!isNew && existing.isLoading) return <div className="loading">Carregando notícia…</div>;
+  if (!isNew && existing.error) return <div className="error">Erro: {(existing.error as Error).message}</div>;
+
   return (
     <form className="form" onSubmit={onSubmit}>
       <div className="page-header">
-        <h1>Nova notícia</h1>
+        <h1>{isNew ? 'Nova notícia' : 'Editar notícia'}</h1>
         <div className="actions">
+          {!isNew && (
+            <button type="button" className="btn-danger" onClick={onDelete} disabled={del.isPending}>
+              {del.isPending ? 'Apagando…' : 'Apagar'}
+            </button>
+          )}
           <button type="button" className="btn-secondary" onClick={() => navigate('/news')}>Cancelar</button>
-          <button type="submit" className="btn-primary" disabled={create.isPending}>
-            {create.isPending ? 'Salvando…' : 'Salvar'}
+          <button type="submit" className="btn-primary" disabled={save.isPending}>
+            {save.isPending ? 'Salvando…' : 'Salvar'}
           </button>
         </div>
       </div>
@@ -117,14 +177,16 @@ export function NewsEditPage() {
       <div className="form-row">
         <label>
           Status
-          <select value={status} onChange={e => setStatus(e.target.value as 'draft' | 'published')}>
+          <select value={status} onChange={e => setStatus(e.target.value as Status)}>
             <option value="draft">Rascunho</option>
-            <option value="published">Publicar agora</option>
+            <option value="published">Publicada</option>
+            <option value="archived">Arquivada</option>
           </select>
         </label>
       </div>
 
-      {create.error && <div className="error">{(create.error as Error).message}</div>}
+      {save.error && <div className="error">{(save.error as Error).message}</div>}
+      {del.error && <div className="error">{(del.error as Error).message}</div>}
     </form>
   );
 }

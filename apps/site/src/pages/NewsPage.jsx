@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNews } from '../data/useNews';
 
 const PAGE_SIZE = 9;
@@ -97,7 +98,7 @@ export default function NewsPage() {
       <section className="news-featured-section">
         <div className="container">
           <div className="news-featured-grid">
-            <a href={featured.link} className="news-featured">
+            <Link to={featured.link} className="news-featured">
               <div className="news-featured-image">
                 <img src={featured.image} alt={featured.title} loading="lazy" />
                 <span className="news-featured-badge">
@@ -122,7 +123,7 @@ export default function NewsPage() {
                   </svg>
                 </span>
               </div>
-            </a>
+            </Link>
 
             <aside className="news-sidebar">
               <h3 className="news-sidebar-title">
@@ -132,7 +133,7 @@ export default function NewsPage() {
               <ul className="news-sidebar-list">
                 {recent.map(item => (
                   <li key={item.id}>
-                    <a href={item.link} className="news-sidebar-item">
+                    <Link to={item.link} className="news-sidebar-item">
                       <div className="news-sidebar-thumb">
                         <img src={item.image} alt={item.title} loading="lazy" />
                       </div>
@@ -140,7 +141,7 @@ export default function NewsPage() {
                         <span className="news-sidebar-date">{formatDate(item.date)}</span>
                         <h4>{item.title}</h4>
                       </div>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -206,9 +207,9 @@ export default function NewsPage() {
           ) : (
             <div className="news-grid">
               {paginated.map(item => (
-                <a
+                <Link
                   key={item.id}
-                  href={item.link}
+                  to={item.link}
                   className="news-card"
                 >
                   <div className="news-card-image">
@@ -238,7 +239,7 @@ export default function NewsPage() {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           )}

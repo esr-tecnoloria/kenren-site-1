@@ -1,43 +1,25 @@
 import type { FastifyInstance } from 'fastify';
-import { z } from 'zod';
 import { prisma } from '../../../lib/prisma.js';
 
-const createNewsSchema = z.object({
-  slug: z.string().min(1),
-  title: z.string().min(1),
-  excerpt: z.string().optional(),
-  bodyHtml: z.string().min(1),
-  coverUrl: z.string().url().optional(),
-  coverAlt: z.string().optional(),
-  youtubeId: z.string().optional(),
-  status: z.enum(['draft', 'published', 'archived']).default('draft'),
-  categoryIds: z.array(z.string().uuid()).default([]),
-});
-
+// Public-facing read routes for news. Only published items are exposed.
+// Admin CRUD lives in /admin/news.
 export async function newsRoutes(app: FastifyInstance) {
-  // Public: list published news
-  app.get('/', async (req) => {
+  app.get('/', async () => {
     const news = await prisma.news.findMany({
       where: { status: 'published' },
       orderBy: { publishedAt: 'desc' },
       include: { categories: { include: { category: true } } },
-      take: 50,
+      take: 100,
     });
     return { items: news };
   });
 
-  // Admin: create
-  app.post('/', { preHandler: app.requireRole(['webmaster', 'content_admin']) }, async (req) => {
-    const body = createNewsSchema.parse(req.body);
-    const { categoryIds, ...rest } = body;
-    const news = await prisma.news.create({
-      data: {
-        ...rest,
-        authorId: req.user!.id,
-        publishedAt: rest.status === 'published' ? new Date() : null,
-        categories: { create: categoryIds.map(id => ({ categoryId: id })) },
-      },
+  app.get<{ Params: { slug: string } }>('/:slug', async (req, reply) => {
+    const news = await prisma.news.findUnique({
+      where: { slug: req.params.slug },
+      include: { categories: { include: { category: true } }, author: { select: { displayName: true } } },
     });
+    if (!news || news.status !== 'published') return reply.notFound('Notícia não encontrada');
     return news;
   });
 }

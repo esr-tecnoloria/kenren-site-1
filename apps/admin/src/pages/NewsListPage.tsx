@@ -8,12 +8,16 @@ type NewsItem = {
   title: string;
   status: 'draft' | 'published' | 'archived';
   publishedAt: string | null;
+  updatedAt: string;
 };
+
+const statusLabel = (s: NewsItem['status']) =>
+  s === 'published' ? 'Publicada' : s === 'draft' ? 'Rascunho' : 'Arquivada';
 
 export function NewsListPage() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['news'],
-    queryFn: () => api.get<{ items: NewsItem[] }>('/kenren/news'),
+    queryKey: ['admin', 'news'],
+    queryFn: () => api.get<{ items: NewsItem[] }>('/admin/news'),
   });
 
   return (
@@ -33,14 +37,15 @@ export function NewsListPage() {
       {data?.items && data.items.length > 0 && (
         <table className="table">
           <thead>
-            <tr><th>Título</th><th>Status</th><th>Publicação</th></tr>
+            <tr><th>Título</th><th>Status</th><th>Publicação</th><th>Atualização</th></tr>
           </thead>
           <tbody>
             {data.items.map(item => (
               <tr key={item.id}>
                 <td><Link to={`/news/${item.id}`}>{item.title}</Link></td>
-                <td>{item.status}</td>
+                <td><span className={`status-pill status-${item.status}`}>{statusLabel(item.status)}</span></td>
                 <td>{item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('pt-BR') : '—'}</td>
+                <td>{new Date(item.updatedAt).toLocaleDateString('pt-BR')}</td>
               </tr>
             ))}
           </tbody>

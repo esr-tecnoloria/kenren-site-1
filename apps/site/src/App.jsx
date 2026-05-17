@@ -6,6 +6,7 @@ import KenjinkaiPage from './pages/KenjinkaiPage';
 import IndividualKenjinkaiPage from './pages/IndividualKenjinkaiPage';
 import TransparenciaPage from './pages/TransparenciaPage';
 import NewsPage from './pages/NewsPage';
+import IndividualNewsPage from './pages/IndividualNewsPage';
 import './styles/style.css';
 import './styles/kenjinkais.css';
 import './styles/transparencia.css';
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/kenjinkais/:slug" element={<IndividualKenjinkaiPage />} />
         <Route path="/transparencia" element={<TransparenciaPage />} />
         <Route path="/noticias" element={<NewsPage />} />
+        <Route path="/noticias/:slug" element={<IndividualNewsPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

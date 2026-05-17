@@ -24,7 +24,7 @@ function mapItem(apiItem) {
     excerpt: apiItem.excerpt || '',
     bodyHtml: apiItem.bodyHtml || '',
     youtubeId: apiItem.youtubeId || null,
-    link: `#/noticias/${apiItem.slug}`,
+    link: `/noticias/${apiItem.slug}`,
     featured: (apiItem.categories ?? []).some(c => c.category?.slug === 'destaques'),
   };
 }
