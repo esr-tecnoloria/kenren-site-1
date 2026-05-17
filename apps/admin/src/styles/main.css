@@ -67,6 +67,14 @@ body {
 .status-draft { background: #fef3c7; color: #92400e; }
 .status-archived { background: #f3f4f6; color: #6b7280; }
 
+/* Kenjinkais list */
+.region-filter-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.region-chip { padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elev); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: var(--text); }
+.region-chip:hover { background: #f0f0f2; }
+.region-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.region-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+.kanji-cell { font-family: 'Noto Sans JP', sans-serif; font-size: 1.15rem; color: #444; }
+
 /* Page header */
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .page-header h1 { margin: 0; }

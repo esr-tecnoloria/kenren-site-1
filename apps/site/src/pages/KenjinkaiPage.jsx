@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { prefectureData, regionFilterButtons } from '../data/prefectures';
+import { regionFilterButtons } from '../data/prefectures';
+import { useKenjinkais } from '../data/useKenjinkais';
 import JapanMap from '../components/JapanMap';
 
 export default function KenjinkaiPage() {
+  const { bySlug, loading } = useKenjinkais();
   const [selectedPref, setSelectedPref] = useState(null);
   const [activeRegion, setActiveRegion] = useState('all');
   const panelRef = useRef(null);
@@ -24,7 +26,7 @@ export default function KenjinkaiPage() {
 
   const handleFilterClick = (filter) => setActiveRegion(filter);
 
-  const data = selectedPref ? prefectureData[selectedPref] : null;
+  const data = selectedPref ? bySlug[selectedPref] : null;
 
   return (
     <>
@@ -65,16 +67,17 @@ export default function KenjinkaiPage() {
                 selectedState={selectedPref}
                 onStateSelect={handlePrefClick}
                 activeRegion={activeRegion}
+                prefectureData={bySlug}
               />
             </div>
           </div>
 
           {/* Prefecture Detail Panel */}
           <div className={`pref-detail-panel${selectedPref ? ' panel-active' : ''}`} id="prefDetailPanel" ref={panelRef}>
-            {!selectedPref ? (
+            {!selectedPref || !data ? (
               <div className="pref-detail-placeholder">
                 <div className="placeholder-icon">🇯🇵</div>
-                <p>Selecione uma província no mapa para ver os detalhes do Kenjinkai</p>
+                <p>{loading ? 'Carregando dados…' : 'Selecione uma província no mapa para ver os detalhes do Kenjinkai'}</p>
               </div>
             ) : (
               <div className="pref-detail-content" style={{ display: 'block' }}>

@@ -97,6 +97,38 @@ model NewsOnCategory {
   @@schema("kenren")
 }
 
+model Kenjinkai {
+  id              String   @id @default(uuid()) @db.Uuid
+  slug            String   @unique
+  name            String
+  kanji           String
+  region          String
+  regionColor     String   @map("region_color")
+  capital         String
+  // Editorial content
+  nomeKenjinkai   String?  @map("nome_kenjinkai")
+  descricao       String?
+  resumo          String?
+  pontoTuristico  String?  @map("ponto_turistico")
+  pratoTipico     String?  @map("prato_tipico")
+  // Contact
+  endereco        String?
+  site            String?
+  facebook        String?
+  instagram       String?
+  // Media
+  coverUrl        String?  @map("cover_url")
+  coverAlt        String?  @map("cover_alt")
+  // Display
+  displayOrder    Int      @default(0) @map("display_order")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([region])
+  @@map("kenjinkais")
+  @@schema("kenren")
+}
+
 model Event {
   id           String        @id @default(uuid()) @db.Uuid
   slug         String        @unique

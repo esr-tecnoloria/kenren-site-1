@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { prefectureData } from '../data/prefectures';
+import { useKenjinkais } from '../data/useKenjinkais';
 
 export default function IndividualKenjinkaiPage() {
   const { slug } = useParams();
-  const data = prefectureData[slug];
+  const { bySlug, loading } = useKenjinkais();
+  const data = bySlug[slug];
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  if (loading) {
+    return <div style={{ padding: '4rem 0', textAlign: 'center' }}>Carregando…</div>;
+  }
   if (!data) {
     return <Navigate to="/kenjinkais" replace />;
   }

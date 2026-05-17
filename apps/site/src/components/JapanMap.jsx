@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback, useRef } from 'react';
 import japanGeoJson from '../assets/map/japan-prefectures.geo.json';
-import { prefectureData } from '../data/prefectures';
 
 // ─── Region definitions for Japanese prefectures ─────────────────────────────
 const REGIONS = {
@@ -156,7 +155,7 @@ const INSET_PADDING = 12;
 
 // ─── JapanMap Component ─────────────────────────────────────────────────────
 
-export default function JapanMap({ onStateSelect, selectedState: controlledSelected, activeRegion = 'all' }) {
+export default function JapanMap({ onStateSelect, selectedState: controlledSelected, activeRegion = 'all', prefectureData = {} }) {
   const [internalSelected, setInternalSelected] = useState(null);
   const selectedState = controlledSelected !== undefined ? controlledSelected : internalSelected;
 
@@ -199,7 +198,7 @@ export default function JapanMap({ onStateSelect, selectedState: controlledSelec
 
       return { code, name, kanji, pathD, cx, cy, region, regionColor, isInset };
     });
-  }, [project, insetProject]);
+  }, [project, insetProject, prefectureData]);
 
   // Split into main and inset shapes
   const mainShapes = useMemo(() => prefShapes.filter(s => !s.isInset), [prefShapes]);
