@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { resizedUrl, resizedSrcSet } from '../utils/image';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-mvxj6ljnkq-rj.a.run.app';
 
@@ -58,7 +59,13 @@ export default function IndividualNewsPage() {
       <section className="news-article-hero">
         {news.coverUrl && (
           <div className="news-article-cover">
-            <img src={news.coverUrl} alt={news.coverAlt || news.title} />
+            <img
+              src={resizedUrl(news.coverUrl, 1600)}
+              srcSet={resizedSrcSet(news.coverUrl)}
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              alt={news.coverAlt || news.title}
+              onError={(e) => { e.currentTarget.src = news.coverUrl; }}
+            />
           </div>
         )}
       </section>

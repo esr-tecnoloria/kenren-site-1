@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNews } from '../data/useNews';
+import { resizedUrl, resizedSrcSet } from '../utils/image';
 
 const PAGE_SIZE = 9;
 
@@ -100,7 +101,14 @@ export default function NewsPage() {
           <div className="news-featured-grid">
             <Link to={featured.link} className="news-featured">
               <div className="news-featured-image">
-                <img src={featured.image} alt={featured.title} loading="lazy" />
+                <img
+                  src={resizedUrl(featured.image, 800)}
+                  srcSet={resizedSrcSet(featured.image)}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  alt={featured.title}
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.src = featured.image; }}
+                />
                 <span className="news-featured-badge">
                   <span className="news-featured-badge-dot"></span>
                   Em destaque
@@ -135,7 +143,12 @@ export default function NewsPage() {
                   <li key={item.id}>
                     <Link to={item.link} className="news-sidebar-item">
                       <div className="news-sidebar-thumb">
-                        <img src={item.image} alt={item.title} loading="lazy" />
+                        <img
+                          src={resizedUrl(item.image, 400)}
+                          alt={item.title}
+                          loading="lazy"
+                          onError={(e) => { e.currentTarget.src = item.image; }}
+                        />
                       </div>
                       <div className="news-sidebar-content">
                         <span className="news-sidebar-date">{formatDate(item.date)}</span>
@@ -213,7 +226,14 @@ export default function NewsPage() {
                   className="news-card"
                 >
                   <div className="news-card-image">
-                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <img
+                      src={resizedUrl(item.image, 400)}
+                      srcSet={resizedSrcSet(item.image)}
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      alt={item.title}
+                      loading="lazy"
+                      onError={(e) => { e.currentTarget.src = item.image; }}
+                    />
                     <div className="news-card-date">
                       <span className="news-card-date-day">{dayOf(item.date)}</span>
                       <span className="news-card-date-month">{monthShort(item.date)}</span>
