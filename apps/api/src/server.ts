@@ -5,6 +5,7 @@ import sensible from '@fastify/sensible';
 import { env, corsOrigins } from './lib/env.js';
 import { authPlugin } from './plugins/auth.js';
 import { newsRoutes } from './modules/kenren/news/routes.js';
+import { mediaRoutes } from './modules/shared/media/routes.js';
 
 const app = Fastify({
   logger: {
@@ -25,6 +26,7 @@ await app.register(authPlugin);
 app.get('/health', async () => ({ ok: true, env: env.NODE_ENV }));
 
 await app.register(newsRoutes, { prefix: '/kenren/news' });
+await app.register(mediaRoutes, { prefix: '/media' });
 
 try {
   await app.listen({ port: env.PORT, host: '0.0.0.0' });

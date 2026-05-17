@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { MediaUpload } from '../components/MediaUpload';
 
 // TinyMCE self-hosted imports
 import 'tinymce/tinymce';
@@ -33,6 +34,8 @@ export function NewsEditPage() {
   const [excerpt, setExcerpt] = useState('');
   const [bodyHtml, setBodyHtml] = useState('');
   const [youtubeId, setYoutubeId] = useState('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [coverAlt, setCoverAlt] = useState('');
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
 
   const create = useMutation({
@@ -50,6 +53,8 @@ export function NewsEditPage() {
       slug: slug || slugify(title),
       excerpt: excerpt || undefined,
       bodyHtml,
+      coverUrl: coverUrl || undefined,
+      coverAlt: coverAlt || undefined,
       youtubeId: youtubeId || undefined,
       status,
       categoryIds: [],
@@ -77,6 +82,16 @@ export function NewsEditPage() {
       <div className="form-row">
         <label>Resumo<textarea value={excerpt} onChange={e => setExcerpt(e.target.value)} rows={2} /></label>
       </div>
+      <div className="form-row">
+        <MediaUpload folder="news" value={coverUrl} onChange={setCoverUrl} label="Imagem de capa" />
+      </div>
+      {coverUrl && (
+        <div className="form-row">
+          <label>Texto alternativo (acessibilidade)
+            <input value={coverAlt} onChange={e => setCoverAlt(e.target.value)} placeholder="Descreva a imagem" />
+          </label>
+        </div>
+      )}
       <div className="form-row">
         <label>YouTube ID (opcional)<input value={youtubeId} onChange={e => setYoutubeId(e.target.value)} placeholder="ex: dQw4w9WgXcQ" /></label>
       </div>
