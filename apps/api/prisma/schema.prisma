@@ -1,0 +1,114 @@
+// Kenren API — Prisma schema
+// Multi-schema: shared (auth/users) + kenren (content)
+// Festival domain comes later (festival schema, separate database planned).
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["shared", "kenren"]
+}
+
+// ─── shared schema ──────────────────────────────────────────────────────────
+
+enum Role {
+  webmaster
+  content_admin
+  kenren_member
+
+  @@schema("shared")
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  firebaseUid  String   @unique @map("firebase_uid")
+  email        String   @unique
+  displayName  String?  @map("display_name")
+  role         Role     @default(content_admin)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  newsAuthored News[]   @relation("NewsAuthor")
+  mediaUploaded Media[] @relation("MediaUploader")
+
+  @@map("users")
+  @@schema("shared")
+}
+
+// ─── kenren schema ──────────────────────────────────────────────────────────
+
+enum PublishStatus {
+  draft
+  published
+  archived
+
+  @@schema("kenren")
+}
+
+model NewsCategory {
+  id        String     @id @default(uuid()) @db.Uuid
+  slug      String     @unique
+  name      String
+  createdAt DateTime   @default(now()) @map("created_at")
+  news      NewsOnCategory[]
+
+  @@map("news_categories")
+  @@schema("kenren")
+}
+
+model News {
+  id           String        @id @default(uuid()) @db.Uuid
+  slug         String        @unique
+  title        String
+  excerpt      String?
+  bodyHtml     String        @map("body_html")
+  coverUrl     String?       @map("cover_url")
+  coverAlt     String?       @map("cover_alt")
+  youtubeId    String?       @map("youtube_id")
+  status       PublishStatus @default(draft)
+  publishedAt  DateTime?     @map("published_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  authorId     String        @map("author_id") @db.Uuid
+  author       User          @relation("NewsAuthor", fields: [authorId], references: [id])
+
+  categories   NewsOnCategory[]
+
+  @@index([status, publishedAt])
+  @@map("news")
+  @@schema("kenren")
+}
+
+model NewsOnCategory {
+  newsId     String       @map("news_id") @db.Uuid
+  categoryId String       @map("category_id") @db.Uuid
+  news       News         @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  category   NewsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([newsId, categoryId])
+  @@map("news_on_categories")
+  @@schema("kenren")
+}
+
+model Media {
+  id           String   @id @default(uuid()) @db.Uuid
+  gcsPath      String   @unique @map("gcs_path")
+  publicUrl    String   @map("public_url")
+  mimeType     String   @map("mime_type")
+  width        Int?
+  height       Int?
+  sizeBytes    Int      @map("size_bytes")
+  alt          String?
+  uploadedById String?  @map("uploaded_by_id") @db.Uuid
+  uploadedBy   User?    @relation("MediaUploader", fields: [uploadedById], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("media")
+  @@schema("kenren")
+}

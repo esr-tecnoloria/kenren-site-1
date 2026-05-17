@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "guia-do-festival-do-japao"
+  },
+  "targets": {
+    "guia-do-festival-do-japao": {
+      "hosting": {
+        "kenren": [
+          "kenren"
+        ]
+      }
+    }
+  }
+}

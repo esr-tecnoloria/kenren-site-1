@@ -15,12 +15,25 @@ npm-debug.log*
 
 # Dependencies (if using package managers)
 node_modules/
+**/node_modules/
 package-lock.json
 yarn.lock
 
 # Build files
 dist/
 build/
+**/dist/
+**/build/
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Env
+.env
+.env.local
+.env.*.local
 
 # Claude Code settings
 .claude/

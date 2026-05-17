@@ -1,0 +1,82 @@
+:root {
+  --bg: #f6f6f8;
+  --bg-elev: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #b22222;
+  --primary-hover: #8e1a1a;
+  --danger: #dc2626;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-size: 14px;
+}
+
+.loading { padding: 2rem; text-align: center; color: var(--muted); }
+.muted { color: var(--muted); }
+.error { color: var(--danger); background: #fef2f2; padding: 0.75rem; border-radius: 6px; margin-top: 0.5rem; }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 220px 1fr; height: 100vh; }
+.sidebar {
+  background: #1a1a1a; color: #eee; display: flex; flex-direction: column;
+  padding: 1rem; gap: 1rem;
+}
+.sidebar-brand { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.sidebar-nav a {
+  color: #ccc; text-decoration: none; padding: 0.5rem 0.75rem; border-radius: 6px;
+}
+.sidebar-nav a:hover { background: #2a2a2a; color: #fff; }
+.sidebar-nav a.active { background: var(--primary); color: #fff; }
+.sidebar-footer { display: flex; flex-direction: column; gap: 0.25rem; border-top: 1px solid #333; padding-top: 0.75rem; }
+.sidebar-user { font-size: 0.8rem; color: #aaa; word-break: break-all; }
+.link-btn { background: none; border: none; color: #ccc; cursor: pointer; text-align: left; padding: 0; font-size: 0.85rem; }
+.link-btn:hover { color: #fff; }
+
+.main { overflow: auto; padding: 2rem; }
+
+/* Login */
+.login-screen { display: grid; place-items: center; height: 100vh; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); }
+.login-card { background: var(--bg-elev); padding: 2rem; border-radius: 12px; width: 360px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+.login-card h1 { margin: 0 0 0.5rem; color: var(--primary); }
+.login-card p { margin: 0 0 1.5rem; color: var(--muted); }
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+  padding: 0.6rem 1.2rem; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-secondary { background: var(--bg-elev); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #f0f0f2; }
+
+/* Page header */
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.page-header h1 { margin: 0; }
+.actions { display: flex; gap: 0.5rem; }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; background: var(--bg-elev); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.table th, .table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+.table th { background: #fafafa; font-weight: 600; color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.table td a { color: var(--primary); text-decoration: none; font-weight: 500; }
+.table td a:hover { text-decoration: underline; }
+
+.empty { background: var(--bg-elev); padding: 3rem; text-align: center; color: var(--muted); border-radius: 8px; border: 1px dashed var(--border); }
+
+/* Form */
+.form { display: flex; flex-direction: column; gap: 1rem; max-width: 800px; }
+.form-row label { display: flex; flex-direction: column; gap: 0.4rem; font-weight: 500; color: var(--text); font-size: 0.85rem; }
+.form-row input, .form-row textarea, .form-row select {
+  font-family: inherit; font-size: 0.95rem; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-elev);
+}
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--primary); }

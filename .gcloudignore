@@ -1,0 +1,27 @@
+.git/
+.github/
+.firebase/
+.claude/
+.vscode/
+.idea/
+bkp/
+docs/
+node_modules/
+**/node_modules/
+**/dist/
+**/build/
+**/.env
+**/.env.*
+*.log
+.DS_Store
+# Old static site at repo root (not part of api build)
+index.html
+kenjinkais.html
+css/
+js/
+assets/
+public/
+react-app/
+# Other apps not needed for api build
+apps/site/
+apps/admin/
