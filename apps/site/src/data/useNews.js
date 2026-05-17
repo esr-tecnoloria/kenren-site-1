@@ -2,16 +2,6 @@ import { useEffect, useState } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-mvxj6ljnkq-rj.a.run.app';
 
-const DEFAULT_CATEGORIES = [
-  'Todas',
-  'Destaques',
-  'Notícias',
-  'Notícias Kenjinkai',
-  'Notícias Relacionadas',
-  'Informações Kenren',
-  'Informativo',
-];
-
 function mapItem(apiItem) {
   return {
     id: apiItem.slug,
@@ -31,21 +21,23 @@ function mapItem(apiItem) {
 
 export function useNews() {
   const [items, setItems] = useState([]);
-  const [categories] = useState(DEFAULT_CATEGORIES);
+  const [categories, setCategories] = useState(['Todas']);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let alive = true;
-    fetch(`${API_URL}/kenren/news`)
-      .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    Promise.all([
+      fetch(`${API_URL}/kenren/news`).then(r => {
+        if (!r.ok) throw new Error(`HTTP news ${r.status}`);
         return r.json();
-      })
-      .then(json => {
+      }),
+      fetch(`${API_URL}/kenren/news-categories`).then(r => r.ok ? r.json() : { items: [] }),
+    ])
+      .then(([newsJson, catJson]) => {
         if (!alive) return;
-        const mapped = (json.items ?? []).map(mapItem);
-        setItems(mapped);
+        setItems((newsJson.items ?? []).map(mapItem));
+        setCategories(['Todas', ...(catJson.items ?? []).map(c => c.name)]);
         setLoading(false);
       })
       .catch(e => {

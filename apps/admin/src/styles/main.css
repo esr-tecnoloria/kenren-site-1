@@ -75,6 +75,26 @@ body {
 .region-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
 .kanji-cell { font-family: 'Noto Sans JP', sans-serif; font-size: 1.15rem; color: #444; }
 
+/* Sidebar sub-link */
+.sidebar-sub { font-size: 0.8rem !important; padding-left: 1.5rem !important; }
+
+/* Category picker */
+.category-picker { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.category-chip {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.4rem 0.75rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-elev);
+  font-size: 0.85rem; cursor: pointer; user-select: none;
+}
+.category-chip:hover { background: #f0f0f2; }
+.category-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.category-chip input { display: none; }
+
+/* Inline form (categories create) */
+.inline-form { display: flex; gap: 0.5rem; align-items: center; flex-direction: row; max-width: none; }
+.inline-form input { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
+.inline-form button { white-space: nowrap; }
+
 /* Page header */
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .page-header h1 { margin: 0; }

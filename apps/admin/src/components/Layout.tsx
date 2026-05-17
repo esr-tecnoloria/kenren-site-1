@@ -12,6 +12,7 @@ export function Layout() {
         <nav className="sidebar-nav">
           <NavLink to="/" end>Dashboard</NavLink>
           <NavLink to="/news">Notícias</NavLink>
+          <NavLink to="/news-categories" className="sidebar-sub">↳ Categorias</NavLink>
           <NavLink to="/events">Eventos</NavLink>
           <NavLink to="/kenjinkais">Kenjinkais</NavLink>
         </nav>

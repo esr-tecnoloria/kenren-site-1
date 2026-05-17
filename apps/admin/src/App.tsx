@@ -11,6 +11,7 @@ import { EventsListPage } from './pages/EventsListPage';
 import { EventEditPage } from './pages/EventEditPage';
 import { KenjinkaisListPage } from './pages/KenjinkaisListPage';
 import { KenjinkaiEditPage } from './pages/KenjinkaiEditPage';
+import { NewsCategoriesPage } from './pages/NewsCategoriesPage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="events/:id" element={<EventEditPage />} />
               <Route path="kenjinkais" element={<KenjinkaisListPage />} />
               <Route path="kenjinkais/:id" element={<KenjinkaiEditPage />} />
+              <Route path="news-categories" element={<NewsCategoriesPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

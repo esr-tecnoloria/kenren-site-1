@@ -21,6 +21,7 @@ import 'tinymce/plugins/autolink';
 import 'tinymce/plugins/wordcount';
 
 type Status = 'draft' | 'published' | 'archived';
+type Category = { id: string; slug: string; name: string };
 type News = {
   id: string;
   slug: string;
@@ -31,6 +32,7 @@ type News = {
   coverAlt: string | null;
   youtubeId: string | null;
   status: Status;
+  categories?: Array<{ categoryId: string; category: Category }>;
 };
 
 const slugify = (s: string) =>
@@ -53,6 +55,12 @@ export function NewsEditPage() {
   const [coverUrl, setCoverUrl] = useState('');
   const [coverAlt, setCoverAlt] = useState('');
   const [status, setStatus] = useState<Status>('draft');
+  const [categoryIds, setCategoryIds] = useState<string[]>([]);
+
+  const categories = useQuery({
+    queryKey: ['admin', 'news-categories'],
+    queryFn: () => api.get<{ items: Category[] }>('/admin/news-categories'),
+  });
 
   const existing = useQuery({
     queryKey: ['admin', 'news', id],
@@ -71,8 +79,13 @@ export function NewsEditPage() {
       setCoverUrl(n.coverUrl ?? '');
       setCoverAlt(n.coverAlt ?? '');
       setStatus(n.status);
+      setCategoryIds((n.categories ?? []).map(c => c.categoryId));
     }
   }, [existing.data]);
+
+  function toggleCategory(id: string) {
+    setCategoryIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  }
 
   const save = useMutation({
     mutationFn: (data: unknown) =>
@@ -104,7 +117,7 @@ export function NewsEditPage() {
       coverAlt: coverAlt || null,
       youtubeId: youtubeId || null,
       status,
-      categoryIds: [],
+      categoryIds,
     });
   }
 
@@ -154,6 +167,27 @@ export function NewsEditPage() {
       )}
       <div className="form-row">
         <label>YouTube ID (opcional)<input value={youtubeId} onChange={e => setYoutubeId(e.target.value)} placeholder="ex: dQw4w9WgXcQ" /></label>
+      </div>
+      <div className="form-row">
+        <label>Categorias</label>
+        {categories.isLoading ? (
+          <p className="muted">Carregando categorias…</p>
+        ) : categories.data?.items.length === 0 ? (
+          <p className="muted">Nenhuma categoria ainda. Crie em "Categorias" no menu.</p>
+        ) : (
+          <div className="category-picker">
+            {categories.data?.items.map(c => (
+              <label key={c.id} className={`category-chip${categoryIds.includes(c.id) ? ' active' : ''}`}>
+                <input
+                  type="checkbox"
+                  checked={categoryIds.includes(c.id)}
+                  onChange={() => toggleCategory(c.id)}
+                />
+                {c.name}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
       <div className="form-row">
         <label>Conteúdo</label>

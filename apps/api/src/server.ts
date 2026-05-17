@@ -7,9 +7,11 @@ import { authPlugin } from './plugins/auth.js';
 import { newsRoutes } from './modules/kenren/news/routes.js';
 import { eventsRoutes } from './modules/kenren/events/routes.js';
 import { kenjinkaisRoutes } from './modules/kenren/kenjinkais/routes.js';
+import { newsCategoriesPublicRoutes } from './modules/kenren/news-categories/routes.js';
 import { adminNewsRoutes } from './modules/admin/news/routes.js';
 import { adminEventsRoutes } from './modules/admin/events/routes.js';
 import { adminKenjinkaisRoutes } from './modules/admin/kenjinkais/routes.js';
+import { adminNewsCategoriesRoutes } from './modules/admin/news-categories/routes.js';
 import { mediaRoutes } from './modules/shared/media/routes.js';
 
 const app = Fastify({
@@ -33,9 +35,11 @@ app.get('/health', async () => ({ ok: true, env: env.NODE_ENV }));
 await app.register(newsRoutes, { prefix: '/kenren/news' });
 await app.register(eventsRoutes, { prefix: '/kenren/events' });
 await app.register(kenjinkaisRoutes, { prefix: '/kenren/kenjinkais' });
+await app.register(newsCategoriesPublicRoutes, { prefix: '/kenren/news-categories' });
 await app.register(adminNewsRoutes, { prefix: '/admin/news' });
 await app.register(adminEventsRoutes, { prefix: '/admin/events' });
 await app.register(adminKenjinkaisRoutes, { prefix: '/admin/kenjinkais' });
+await app.register(adminNewsCategoriesRoutes, { prefix: '/admin/news-categories' });
 await app.register(mediaRoutes, { prefix: '/media' });
 
 try {
