@@ -42,7 +42,7 @@ export default function Footer() {
               <li>{footerLink('#federacao', 'Federação')}</li>
               <li><Link to="/kenjinkais">Kenjinkais</Link></li>
               <li>{footerLink('#monumentos', 'Monumentos')}</li>
-              <li>{footerLink('#eventos', 'Eventos')}</li>
+              <li><Link to="/agenda">Eventos</Link></li>
               <li><Link to="/noticias">Notícias</Link></li>
               <li><Link to="/transparencia">Transparência</Link></li>
             </ul>

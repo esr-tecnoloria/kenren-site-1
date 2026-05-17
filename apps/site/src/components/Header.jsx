@@ -102,11 +102,13 @@ export default function Header() {
                 )}
               </li>
               <li>
-                {isHome ? (
-                  <a href="#eventos" className="nav-link" onClick={(e) => handleAnchorClick(e, '#eventos')}>EVENTOS</a>
-                ) : (
-                  <Link to="/#eventos" className="nav-link" onClick={closeMenu}>EVENTOS</Link>
-                )}
+                <Link
+                  to="/agenda"
+                  className={`nav-link${location.pathname === '/agenda' || location.pathname.startsWith('/eventos/') ? ' active' : ''}`}
+                  onClick={closeMenu}
+                >
+                  EVENTOS
+                </Link>
               </li>
               <li>
                 <Link

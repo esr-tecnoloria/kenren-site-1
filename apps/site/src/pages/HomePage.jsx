@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useEvents } from '../data/useEvents';
 
 const heroSlides = [
@@ -197,28 +197,31 @@ export default function HomePage() {
           ) : events.length === 0 ? (
             <p style={{ textAlign: 'center', padding: '2rem 0', color: '#666' }}>Nenhum evento programado no momento.</p>
           ) : (
-            <div className="eventos-list">
-              {events.map(ev => (
-                <div key={ev.id} className={`evento-card${ev.featured ? ' featured' : ''}`}>
-                  {ev.featured && <div className="evento-badge">Destaque</div>}
-                  <div className="evento-date">
-                    <span className="evento-day">{ev.day}</span>
-                    <span className="evento-month">{ev.month}</span>
-                  </div>
-                  <div className="evento-content">
-                    <h3>{ev.title}</h3>
-                    <p className="evento-time">{ev.timeRange}</p>
-                    {ev.location && <p className="evento-location">📍 {ev.location}</p>}
-                    {ev.description && <p className="evento-description">{ev.description}</p>}
-                    {ev.linkUrl && (
-                      <a href={ev.linkUrl} target="_blank" rel="noopener noreferrer" className="evento-link">
-                        {ev.featured ? 'Veja Mais' : 'Mais Informações'}
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <>
+              <div className="eventos-list">
+                {events.slice(0, 4).map(ev => (
+                  <Link key={ev.id} to={`/eventos/${ev.slug}`} className={`evento-card${ev.featured ? ' featured' : ''}`}>
+                    {ev.featured && <div className="evento-badge">Destaque</div>}
+                    <div className="evento-date">
+                      <span className="evento-day">{ev.day}</span>
+                      <span className="evento-month">{ev.month}</span>
+                    </div>
+                    <div className="evento-content">
+                      <h3>{ev.title}</h3>
+                      <p className="evento-time">{ev.timeRange}</p>
+                      {ev.location && <p className="evento-location">📍 {ev.location}</p>}
+                      {ev.description && <p className="evento-description">{ev.description}</p>}
+                      <span className="evento-link">
+                        {ev.featured ? 'Veja Mais' : 'Mais Informações'} →
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                <Link to="/agenda" className="btn btn-primary">Ver agenda completa</Link>
+              </div>
+            </>
           )}
         </div>
       </section>
