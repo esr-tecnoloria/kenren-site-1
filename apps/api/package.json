@@ -15,7 +15,8 @@
     "seed:admin": "tsx scripts/seed-admin.ts",
     "seed:news": "tsx scripts/seed-news.ts",
     "seed:kenjinkais": "tsx scripts/seed-kenjinkais.ts",
-    "seed:transparency": "tsx scripts/seed-transparency.ts"
+    "seed:transparency": "tsx scripts/seed-transparency.ts",
+    "seed:hero": "tsx scripts/seed-hero.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",

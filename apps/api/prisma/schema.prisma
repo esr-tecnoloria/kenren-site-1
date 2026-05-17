@@ -84,6 +84,34 @@ model TransparencyProject {
   @@schema("kenren")
 }
 
+model HeroSettings {
+  id          Int      @id @default(1)
+  title       String?
+  subtitle    String?
+  description String?
+  ctaLabel    String?  @map("cta_label")
+  ctaHref     String?  @map("cta_href")
+  showLogo    Boolean  @default(true) @map("show_logo")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("hero_settings")
+  @@schema("kenren")
+}
+
+model HeroSlide {
+  id           String   @id @default(uuid()) @db.Uuid
+  imageUrl     String   @map("image_url")
+  alt          String?
+  active       Boolean  @default(true)
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([active, displayOrder])
+  @@map("hero_slides")
+  @@schema("kenren")
+}
+
 model ProjectDoc {
   id           String              @id @default(uuid()) @db.Uuid
   projectId    String              @map("project_id") @db.Uuid

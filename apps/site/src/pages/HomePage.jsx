@@ -2,15 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useEvents } from '../data/useEvents';
 import { useNews } from '../data/useNews';
+import { useHero } from '../data/useHero';
 import { resizedUrl, resizedSrcSet } from '../utils/image';
 
-const heroSlides = [
-  { src: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=90', alt: 'Templo Japonês' },
-  { src: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1920&q=90', alt: 'Cerejeiras do Japão' },
-  { src: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=1920&q=90', alt: 'Monte Fuji' },
-];
-
 export default function HomePage() {
+  const { settings: heroSettings, slides: heroSlides } = useHero();
   const { items: events, loading: eventsLoading } = useEvents();
   const { items: news, loading: newsLoading } = useNews();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -62,7 +58,7 @@ export default function HomePage() {
   useEffect(() => {
     heroSlides.forEach(slide => {
       const img = new Image();
-      img.src = slide.src;
+      img.src = slide.imageUrl;
     });
   }, []);
 
@@ -154,20 +150,29 @@ export default function HomePage() {
       >
         <div className="hero-slider">
           {heroSlides.map((slide, index) => (
-            <div key={index} className={getSlideClassName(index)}>
-              <img src={slide.src} alt={slide.alt} className="hero-bg-img" loading="eager" />
+            <div key={slide.id ?? index} className={getSlideClassName(index)}>
+              <img src={slide.imageUrl} alt={slide.alt ?? ''} className="hero-bg-img" loading="eager" />
               <div className="hero-overlay"></div>
             </div>
           ))}
         </div>
         <div className="hero-content">
           <div className="container">
-            <div className="hero-logo-watermark">
-              <img src={`${import.meta.env.BASE_URL}assets/logo_kenren.png`} alt="KENREN Logo" className="hero-logo-img" />
-            </div>
-            <p className="hero-subtitle">Federação das Associações de Províncias do Japão no Brasil</p>
-            <p className="hero-description">Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os emigrantes japoneses, preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.</p>
-            <a href="#federacao" className="btn btn-primary" onClick={handleAnchorClick}>Saiba Mais</a>
+            {heroSettings.showLogo && (
+              <div className="hero-logo-watermark">
+                <img src={`${import.meta.env.BASE_URL}assets/logo_kenren.png`} alt="KENREN Logo" className="hero-logo-img" />
+              </div>
+            )}
+            {heroSettings.title && <h1 className="hero-title">{heroSettings.title}</h1>}
+            {heroSettings.subtitle && <p className="hero-subtitle">{heroSettings.subtitle}</p>}
+            {heroSettings.description && <p className="hero-description">{heroSettings.description}</p>}
+            {heroSettings.ctaLabel && heroSettings.ctaHref && (
+              heroSettings.ctaHref.startsWith('#') ? (
+                <a href={heroSettings.ctaHref} className="btn btn-primary" onClick={handleAnchorClick}>{heroSettings.ctaLabel}</a>
+              ) : (
+                <Link to={heroSettings.ctaHref} className="btn btn-primary">{heroSettings.ctaLabel}</Link>
+              )
+            )}
           </div>
         </div>
         <div className="hero-controls">

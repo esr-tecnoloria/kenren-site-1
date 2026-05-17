@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { api } from '../lib/api';
 
 type Props = {
-  folder: 'news' | 'events' | 'kenjinkais' | 'transparencia' | 'other';
+  folder: 'news' | 'events' | 'kenjinkais' | 'transparencia' | 'hero' | 'other';
   value: string;
   onChange: (publicUrl: string) => void;
   label?: string;

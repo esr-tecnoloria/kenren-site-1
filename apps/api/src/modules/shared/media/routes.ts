@@ -12,7 +12,7 @@ const ALLOWED_MIME = new Set([
 const signSchema = z.object({
   filename: z.string().min(1).max(200),
   contentType: z.string().min(1),
-  folder: z.enum(['news', 'events', 'kenjinkais', 'transparencia', 'other']).default('other'),
+  folder: z.enum(['news', 'events', 'kenjinkais', 'transparencia', 'hero', 'other']).default('other'),
 });
 
 function sanitize(name: string) {

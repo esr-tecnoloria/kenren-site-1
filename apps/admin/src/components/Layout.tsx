@@ -11,6 +11,7 @@ export function Layout() {
         <div className="sidebar-brand">KENREN</div>
         <nav className="sidebar-nav">
           <NavLink to="/" end>Dashboard</NavLink>
+          <NavLink to="/hero">Hero da Home</NavLink>
           <NavLink to="/news">Notícias</NavLink>
           <NavLink to="/news-categories" className="sidebar-sub">↳ Categorias</NavLink>
           <NavLink to="/events">Eventos</NavLink>
