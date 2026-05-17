@@ -13,5 +13,12 @@
         ]
       }
     }
+  },
+  "etags": {
+    "guia-do-festival-do-japao": {
+      "extensionInstances": {
+        "storage-resize-images": "874cbb0229b9bcd8b6106695483183935fb6cc4deba3be34e6c52c8938562542"
+      }
+    }
   }
 }
