@@ -4,6 +4,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { MediaUpload } from '../components/MediaUpload';
+import { InstagramShareModal } from '../components/InstagramShareModal';
 
 // TinyMCE self-hosted imports
 import 'tinymce/tinymce';
@@ -56,6 +57,7 @@ export function NewsEditPage() {
   const [coverAlt, setCoverAlt] = useState('');
   const [status, setStatus] = useState<Status>('draft');
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
+  const [igOpen, setIgOpen] = useState(false);
 
   const categories = useQuery({
     queryKey: ['admin', 'news-categories'],
@@ -134,6 +136,17 @@ export function NewsEditPage() {
       <div className="page-header">
         <h1>{isNew ? 'Nova notícia' : 'Editar notícia'}</h1>
         <div className="actions">
+          {!isNew && existing.data?.status === 'published' && (
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => setIgOpen(true)}
+              disabled={!existing.data.coverUrl}
+              title={!existing.data.coverUrl ? 'Adicione uma imagem de capa primeiro' : 'Preparar caption + imagem pra postar no Instagram'}
+            >
+              📸 Instagram
+            </button>
+          )}
           {!isNew && (
             <button type="button" className="btn-danger" onClick={onDelete} disabled={del.isPending}>
               {del.isPending ? 'Apagando…' : 'Apagar'}
@@ -221,6 +234,20 @@ export function NewsEditPage() {
 
       {save.error && <div className="error">{(save.error as Error).message}</div>}
       {del.error && <div className="error">{(del.error as Error).message}</div>}
+
+      {existing.data && (
+        <InstagramShareModal
+          open={igOpen}
+          onClose={() => setIgOpen(false)}
+          news={{
+            title: existing.data.title,
+            slug: existing.data.slug,
+            excerpt: existing.data.excerpt,
+            coverUrl: existing.data.coverUrl,
+            categories: existing.data.categories,
+          }}
+        />
+      )}
     </form>
   );
 }

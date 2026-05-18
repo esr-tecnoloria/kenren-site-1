@@ -156,3 +156,38 @@ body {
 .media-preview img { max-width: 200px; max-height: 140px; border-radius: 4px; object-fit: cover; }
 .media-preview .link-btn { color: var(--danger); }
 .media-progress { font-size: 0.85rem; color: var(--muted); padding: 0.25rem 0; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  display: grid; place-items: center; z-index: 1000; padding: 1rem;
+}
+.modal {
+  background: #fff; border-radius: 10px;
+  max-width: 580px; width: 100%; max-height: 90vh; display: flex; flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+}
+.modal-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+}
+.modal-head h2 { margin: 0; font-size: 1.15rem; }
+.modal-body { padding: 1.25rem; overflow-y: auto; }
+.modal-foot { padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); text-align: right; }
+
+/* Instagram modal steps */
+.ig-steps { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.ig-steps > li { padding-left: 0.5rem; }
+.ig-steps strong { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; }
+.ig-step-btn { margin-top: 0.5rem; }
+.ig-step-btns { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+.ig-step-btns a { text-decoration: none; }
+.ig-hint { font-size: 0.8rem; margin: 0.4rem 0 0; }
+.ig-caption {
+  width: 100%; padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border); border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 0.85rem; line-height: 1.45;
+  resize: vertical; min-height: 140px;
+  margin-top: 0.25rem;
+}
