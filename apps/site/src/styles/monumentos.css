@@ -1,0 +1,365 @@
+/* ===== Monumentos Section ===== */
+.monumentos-section {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(200, 16, 46, 0.05), transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(26, 26, 26, 0.05), transparent 45%),
+    var(--bg-light);
+}
+
+.monumentos-intro {
+  max-width: 720px;
+  margin: -1rem auto 3rem;
+  text-align: center;
+  color: var(--text-light);
+  line-height: 1.8;
+  font-size: 1.08rem;
+}
+
+.monumentos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2.5rem;
+}
+
+/* Card is a <button> — reset native styles */
+.monumento-card {
+  appearance: none;
+  border: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  background: var(--bg-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.monumento-card:hover,
+.monumento-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  outline: none;
+}
+
+.monumento-media {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+}
+
+.monumento-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.monumento-card:hover .monumento-media img {
+  transform: scale(1.08);
+}
+
+.monumento-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.monumento-kanji {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  font-family: var(--font-japanese);
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 2px;
+  writing-mode: vertical-rl;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.monumento-info {
+  padding: 1.6rem 1.8rem 1.9rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.monumento-info h3 {
+  font-size: 1.45rem;
+  color: var(--secondary-color);
+  margin-bottom: 0.4rem;
+  font-family: var(--font-japanese);
+}
+
+.monumento-location {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 0.9rem;
+}
+
+.monumento-resumo {
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 1.3rem;
+  flex: 1;
+}
+
+.monumento-cta {
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 0.3px;
+  transition: gap 0.25s ease;
+}
+
+.monumento-card:hover .monumento-cta {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ===== Modal ===== */
+.mon-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 15, 18, 0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4vh 1rem;
+  overflow-y: auto;
+  animation: monFade 0.25s ease;
+}
+
+@keyframes monFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mon-modal {
+  position: relative;
+  width: min(820px, 100%);
+  background: var(--bg-white);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  animation: monRise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes monRise {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.mon-modal-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.mon-modal-close:hover {
+  background: var(--primary-color);
+  transform: rotate(90deg);
+}
+
+.mon-modal-hero {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.mon-modal-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.mon-modal-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.25) 40%, rgba(0, 0, 0, 0.82) 100%);
+}
+
+.mon-modal-kanji {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.6rem;
+  font-family: var(--font-japanese);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  writing-mode: vertical-rl;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+
+.mon-modal-hero-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.8rem 2rem;
+  color: #fff;
+}
+
+.mon-modal-hero-text h2 {
+  font-family: var(--font-japanese);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  margin-bottom: 0.35rem;
+}
+
+.mon-modal-sub {
+  font-size: 0.98rem;
+  opacity: 0.92;
+  margin-bottom: 0.5rem;
+}
+
+.mon-modal-local {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffd9df;
+}
+
+.mon-modal-body {
+  padding: 2rem 2.2rem 2.4rem;
+}
+
+.mon-modal-par {
+  color: var(--text-color);
+  line-height: 1.85;
+  margin-bottom: 1.1rem;
+  text-align: justify;
+}
+
+/* Quotes */
+.mon-modal-quotes {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.8rem 0;
+}
+
+.mon-quote {
+  position: relative;
+  background: var(--bg-light);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 0 12px 12px 0;
+  padding: 1.3rem 1.5rem 1.2rem;
+  margin: 0;
+}
+
+.mon-quote-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.6rem;
+}
+
+.mon-quote-body {
+  font-size: 1.12rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--secondary-color);
+  margin-bottom: 0.6rem;
+}
+
+.mon-quote cite {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Specs */
+.mon-specs {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.6rem;
+}
+
+.mon-specs-title {
+  font-family: var(--font-japanese);
+  font-size: 1.15rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.1rem;
+}
+
+.mon-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem 1.6rem;
+  margin: 0;
+}
+
+.mon-spec {
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.7rem;
+}
+
+.mon-spec dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.mon-spec dd {
+  margin: 0;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+/* Brochure */
+.mon-brochure-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  padding: 0.9rem 1.6rem;
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.mon-brochure-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.mon-brochure-ico {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .monumentos-grid { grid-template-columns: 1fr; }
+  .mon-modal-hero { height: 220px; }
+  .mon-modal-hero-text h2 { font-size: 1.5rem; }
+  .mon-modal-body { padding: 1.5rem 1.3rem 1.8rem; }
+  .mon-modal-par { text-align: left; }
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { resizedUrl, resizedSrcSet } from '../utils/image';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-mvxj6ljnkq-rj.a.run.app';
+const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-178834661181.us-central1.run.app';
 
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('pt-BR', {
   weekday: 'long', day: '2-digit', month: 'long', year: 'numeric',

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useKenjinkais } from '../data/useKenjinkais';
+import { fullKanji } from '../data/prefectures';
 import { resizedUrl } from '../utils/image';
 
 export default function IndividualKenjinkaiPage() {
@@ -35,7 +36,7 @@ export default function IndividualKenjinkaiPage() {
         <div className="container">
           <Link to="/kenjinkais" className="kenjinkai-back">← Voltar ao mapa</Link>
           <div className="kenjinkai-hero-inner">
-            <span className="kenjinkai-hero-kanji">{data.kanji}</span>
+            <span className="kenjinkai-hero-kanji">{fullKanji(data.slug, data.kanji)}</span>
             <div>
               <span className="kenjinkai-hero-region" style={{ background: data.regionColor }}>{data.region}</span>
               <h1 className="kenjinkai-hero-title">{data.name}</h1>

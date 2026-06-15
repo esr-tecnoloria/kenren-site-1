@@ -262,7 +262,6 @@ export default function JapanMap({ onStateSelect, selectedState: controlledSelec
       textAnchor="middle"
       dominantBaseline="central"
       pointerEvents="none"
-      fontSize="11"
     >
       {kanji}
     </text>

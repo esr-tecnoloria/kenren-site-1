@@ -13,6 +13,7 @@ import './styles/style.css';
 import './styles/kenjinkais.css';
 import './styles/transparencia.css';
 import './styles/news.css';
+import './styles/monumentos.css';
 
 export default function App() {
   return (

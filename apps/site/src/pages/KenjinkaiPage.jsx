@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { regionFilterButtons } from '../data/prefectures';
+import { regionFilterButtons, fullKanji } from '../data/prefectures';
 import { useKenjinkais } from '../data/useKenjinkais';
 import JapanMap from '../components/JapanMap';
 
@@ -83,7 +83,7 @@ export default function KenjinkaiPage() {
               <div className="pref-detail-content" style={{ display: 'block' }}>
                 <button className="pref-detail-close" aria-label="Fechar" onClick={handleClose}>&times;</button>
                 <div className="pref-detail-header">
-                  <span className="pref-detail-kanji">{data.kanji}</span>
+                  <span className="pref-detail-kanji">{fullKanji(data.slug, data.kanji)}</span>
                   <div>
                     <h3 className="pref-detail-name">{data.name}</h3>
                     <span className="pref-detail-region" style={{ background: data.regionColor }}>{data.region}</span>

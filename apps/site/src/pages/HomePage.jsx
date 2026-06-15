@@ -4,6 +4,7 @@ import { useEvents } from '../data/useEvents';
 import { useNews } from '../data/useNews';
 import { useHero } from '../data/useHero';
 import { resizedUrl, resizedSrcSet } from '../utils/image';
+import MonumentosSection from '../components/MonumentosSection';
 
 export default function HomePage() {
   const { settings: heroSettings, slides: heroSlides } = useHero();
@@ -309,7 +310,7 @@ export default function HomePage() {
           </div>
           <div className="sobre-content">
             <div className="sobre-text">
-              <p>Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os emigrantes japoneses, preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.</p>
+              <p>Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os imigrantes japoneses, preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.</p>
               <p>A federação trabalha para manter viva a tradição e os valores culturais japoneses no Brasil, promovendo eventos, atividades culturais e fortalecendo os laços entre as comunidades.</p>
             </div>
             <div className="sobre-image">
@@ -326,34 +327,34 @@ export default function HomePage() {
             <h2 className="section-title">Atividades KENREN</h2>
             <div className="title-underline"></div>
           </div>
+          <p className="atividades-intro">A KENREN é a Federação das Associações de Províncias do Japão no Brasil — entidade que reúne e coordena os kenjinkais das 47 províncias dentro da comunidade nipo-brasileira.</p>
           <div className="atividades-grid">
             <div className="atividade-card">
-              <div className="atividade-image">
-                <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=600&q=80" alt="Memorial Ireihi" />
-              </div>
+              <div className="atividade-icon">🤝</div>
               <div className="atividade-content">
-                <h3>Memorial Ireihi</h3>
-                <p>Construção do Memorial em Homenagem aos Imigrantes Pioneiros Falecidos - Ireihi (Parque Ibirapuera / SP)</p>
+                <h3>Coordenação dos Kenjinkais</h3>
+                <p>Atua como entidade "guarda-chuva" das 47 províncias, integrando agendas, ações, colaboração e representação institucional das associações provinciais.</p>
               </div>
             </div>
             <div className="atividade-card">
-              <div className="atividade-image">
-                <img src={`${import.meta.env.BASE_URL}assets/images/monumento_desembarque.jpg`} alt="Monumento do Desembarque" />
-              </div>
-              <div className="atividade-content">
-                <h3>Monumento do Desembarque</h3>
-                <p>De 18 de junho de 1908, quando a primeira leva de imigrantes desembarcou no porto de Santos, do Kasato Maru, até 27 de março de 1973, aproximadamente 240.000 japoneses migraram-se para Brasil.</p>
-                <p>Foi sugerida a construção do Monumento do Desembarque de Imigrantes Japoneses em Santos, na ocasião do 90º. Aniversário da Imigração Japonesa, local considerado como ponto de origem da imigração japonesa ao Brasil.</p>
-                <p>Em 21 de junho de 1998, o Monumento foi solenemente inaugurado na Ponta da Praia.</p>
-              </div>
-            </div>
-            <div className="atividade-card">
-              <div className="atividade-image">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80" alt="Festival do Japão" />
-              </div>
+              <div className="atividade-icon">🎌</div>
               <div className="atividade-content">
                 <h3>Festival do Japão</h3>
-                <p>Festival do Japão (Expo / SP) - O maior evento de cultura japonesa da América Latina</p>
+                <p>Carro-chefe da federação: organiza, em São Paulo, o maior evento de cultura japonesa da América Latina.</p>
+              </div>
+            </div>
+            <div className="atividade-card">
+              <div className="atividade-icon">🌸</div>
+              <div className="atividade-content">
+                <h3>Cultura, Memória e Tradições</h3>
+                <p>Preserva e divulga as tradições japonesas para as novas gerações e mantém viva a memória da imigração, incluindo iniciativas e memoriais.</p>
+              </div>
+            </div>
+            <div className="atividade-card">
+              <div className="atividade-icon">🫂</div>
+              <div className="atividade-content">
+                <h3>Apoio à Comunidade</h3>
+                <p>Articulação histórica de suporte às famílias de imigrantes e à organização comunitária nipo-brasileira.</p>
               </div>
             </div>
           </div>
@@ -400,34 +401,7 @@ export default function HomePage() {
       </section>
 
       {/* Monumentos Section */}
-      <section className="monumentos-section" id="monumentos">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Monumentos</h2>
-            <div className="title-underline"></div>
-          </div>
-          <div className="monumentos-grid">
-            <div className="monumento-card">
-              <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80" alt="Memorial Ireihi" />
-              <div className="monumento-info">
-                <h3>Memorial Ireihi</h3>
-                <p className="monumento-location">📍 Parque Ibirapuera, São Paulo - SP</p>
-                <p>Memorial em Homenagem aos Imigrantes Pioneiros Falecidos, localizado no coração do Parque Ibirapuera.</p>
-              </div>
-            </div>
-            <div className="monumento-card">
-              <img src={`${import.meta.env.BASE_URL}assets/images/monumento_desembarque.jpg`} alt="Monumento do Desembarque" />
-              <div className="monumento-info">
-                <h3>Monumento do Desembarque</h3>
-                <p className="monumento-location">📍 Santos, São Paulo - SP</p>
-                <p>De 18 de junho de 1908, quando a primeira leva de imigrantes desembarcou no porto de Santos, do Kasato Maru, até 27 de março de 1973, aproximadamente 240.000 japoneses migraram-se para Brasil.</p>
-                <p>Foi sugerida a construção do Monumento do Desembarque de Imigrantes Japoneses em Santos, na ocasião do 90º. Aniversário da Imigração Japonesa, local considerado como ponto de origem da imigração japonesa ao Brasil.</p>
-                <p>Em 21 de junho de 1998, o Monumento foi solenemente inaugurado na Ponta da Praia.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <MonumentosSection />
 
       {/* Contato Section */}
       <section className="contato-section" id="contato">
@@ -442,7 +416,7 @@ export default function HomePage() {
                 <div className="info-icon">📍</div>
                 <div className="info-content">
                   <h4>ENDEREÇO</h4>
-                  <p>Av. Bernardino de Campos, 98<br />SP - CEP: 12345-678</p>
+                  <p>R. São Joaquim, 381 - 51 - Liberdade<br />São Paulo - SP, CEP: 01508-001</p>
                 </div>
               </div>
               <div className="info-item">
@@ -456,7 +430,9 @@ export default function HomePage() {
                 <div className="info-icon">📞</div>
                 <div className="info-content">
                   <h4>TELEFONE</h4>
-                  <p>(11) 3456-7890</p>
+                  <p>(11) 3277-8569</p>
+                  <p>Cel.: (11) 95071-1475</p>
+                  <p>Cel.: (11) 91170-5963</p>
                 </div>
               </div>
               <div className="info-item">

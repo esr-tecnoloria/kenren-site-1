@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-mvxj6ljnkq-rj.a.run.app';
+const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-178834661181.us-central1.run.app';
 
 function mapItem(apiItem) {
   return {

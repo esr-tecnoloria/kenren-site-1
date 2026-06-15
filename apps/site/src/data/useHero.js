@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-mvxj6ljnkq-rj.a.run.app';
+const API_URL = import.meta.env.VITE_API_URL || 'https://kenren-api-178834661181.us-central1.run.app';
 
 const FALLBACK_SETTINGS = {
   subtitle: 'Federação das Associações de Províncias do Japão no Brasil',
-  description: 'Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os emigrantes japoneses, preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.',
+  description: 'Fundada em 1966, a KENREN é uma entidade que visa incentivar e apoiar os imigrantes japoneses, preservar e divulgar a cultura japonesa, fortalecer os kenjinkais das 47 províncias.',
   ctaLabel: 'Saiba Mais',
   ctaHref: '#federacao',
   showLogo: true,

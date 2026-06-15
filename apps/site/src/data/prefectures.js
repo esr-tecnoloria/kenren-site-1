@@ -48,6 +48,17 @@ export const prefectureData = {
   okinawa: { name: 'Okinawa', kanji: '沖縄', region: 'Kyushu/Okinawa', regionColor: '#9C27B0', capital: 'Naha', kenjinkai: 'Okinawa Kenjinkai do Brasil', desc: 'Cultura unica do Japao. A maior comunidade de okinawanos fora do Japao esta no Brasil.', nomeKenjinkai: 'Associação Okinawa Kenjin do Brasil', endereco: 'São Paulo - SP', site: 'http://www.okinawa.org.br', facebook: 'https://www.facebook.com/okinawakenjinbrasil', instagram: 'https://www.instagram.com/okinawakenjinbrasil', resumo: 'A comunidade de Okinawa no Brasil é uma das mais organizadas e influentes entre os Kenjinkais. Com forte atuação cultural, promove eventos tradicionais como o eisa (dança típica), festivais e intercâmbios com a província de origem. Okinawa possui identidade cultural própria, ligada ao antigo Reino de Ryukyu.', pontoTuristico: 'Castelo de Shurijo', pratoTipico: 'Goya Champuru' },
 };
 
+// Sufixo administrativo correto de cada província japonesa:
+//   東京都 (to) · 北海道 (do) · 大阪府 / 京都府 (fu) · 〇〇県 (ken) para as demais.
+const KANJI_SUFFIX = { tokyo: '都', hokkaido: '道', osaka: '府', kyoto: '府' };
+
+/** Retorna o kanji da província com o sufixo administrativo correto (idempotente). */
+export function fullKanji(slug, kanji) {
+  if (!kanji) return kanji || '';
+  const suffix = KANJI_SUFFIX[slug] || '県';
+  return kanji.endsWith(suffix) ? kanji : kanji + suffix;
+}
+
 export const regionGroups = [
   { id: 'hokkaido', name: 'Hokkaido', color: '#2E7D32', prefectures: ['hokkaido'] },
   { id: 'tohoku', name: 'Tohoku', color: '#00838F', prefectures: ['aomori', 'iwate', 'miyagi', 'akita', 'yamagata', 'fukushima'] },

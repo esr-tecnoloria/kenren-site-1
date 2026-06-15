@@ -110,7 +110,7 @@
 /* Map Wrapper */
 .map-wrapper {
     flex: 1;
-    max-width: 650px;
+    max-width: 760px;
     margin: 0 auto;
     background: linear-gradient(145deg, #f8fafc 0%, #eef2f7 100%);
     border-radius: 16px;
@@ -201,24 +201,20 @@
 .japan-svg-map .region-shikoku .pref-polygon { fill: #F48FB1; }
 .japan-svg-map .region-kyushu .pref-polygon { fill: #9C27B0; }
 
-/* Prefecture text labels */
+/* Prefecture text labels — dark glyphs with a white halo so they stay legible
+   on every region color (light yellows/greens and the darker reds/purples). */
 .japan-svg-map .pref-label {
     font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 700;
-    fill: rgba(255,255,255,0.95);
+    font-weight: 800;
+    font-size: 13px;
+    fill: #16161f;
+    stroke: #ffffff;
+    stroke-width: 2.6px;
+    paint-order: stroke fill;
+    stroke-linejoin: round;
     pointer-events: none;
     text-anchor: middle;
     dominant-baseline: central;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.japan-svg-map .region-kinki .pref-label,
-.japan-svg-map .region-chubu .pref-label,
-.japan-svg-map .region-shikoku .pref-label,
-.japan-svg-map .region-kanto .pref-label,
-.japan-svg-map .region-hokkaido .pref-label {
-    fill: #1a1a2e;
-    font-weight: 800;
 }
 
 /* Region labels outside the map */
@@ -537,7 +533,8 @@
     }
 
     .japan-svg-map .pref-label {
-        font-size: 8px !important;
+        font-size: 11px;
+        stroke-width: 2px;
     }
 }
 
